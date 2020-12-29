@@ -21,7 +21,7 @@ if {![info exists ::env(PROJECT)] && [file exists $::env(HOME)/.sdkman/candidate
 }
 
 if {![info exists ::env(PROJECT)] && [file exists $::env(HOME)/.sdkman/candidates/maven/3.6.3] != 1} { 
-    puts stderr "Please install sbt via 'sdk install maven 3.6.3'!"
+    puts stderr "Please install mvn via 'sdk install maven 3.6.3'!"
     prereq maven/3.6.3
 } else {
     prepend-path PATH $::env(HOME)/.sdkman/candidates/sbt/1.4.4/bin
