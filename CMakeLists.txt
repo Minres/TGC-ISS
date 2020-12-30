@@ -54,7 +54,10 @@ if (ENABLE_CLANG_TIDY)
         set(CMAKE_CXX_CLANG_TIDY "" CACHE STRING "" FORCE) # delete it
     endif()
 endif()
-  
+
+include(CodeGen)
+gen_coredsl(TGF_C ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input/TGFS.core_desc interp)
+
 add_subdirectory(dbt-core)
 add_subdirectory(scc)
 add_subdirectory(tgfs)
