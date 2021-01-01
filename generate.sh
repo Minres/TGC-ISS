@@ -10,9 +10,9 @@ REPO_DIR=tgfs/gen_input/CoreDSL-Instruction-Set-Description
 TMPL_DIR=tgfs/gen_input/templates/interp
 INPUT_FILE=tgfs/gen_input/TGFS.core_desc
 MAPPING=""
-MAPPING="$MAPPING -m ${TMPL_DIR}/incl-CORENAME.h.gtl:tgfs/incl/iss/arch/tgf_c.h"
-MAPPING="$MAPPING -m ${TMPL_DIR}/src-CORENAME.cpp.gtl:tgfs/src/iss/tgf_c.cpp"
-MAPPING="$MAPPING -m ${TMPL_DIR}/vm-vm_CORENAME.cpp.gtl:tgfs/src/vm/interp/vm_tgf_c.cpp"
+MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME.h.gtl:tgfs/incl/iss/arch/tgf_c.h"
+MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME.cpp.gtl:tgfs/src/iss/tgf_c.cpp"
+MAPPING="$MAPPING -m ${TMPL_DIR}/vm_CORENAME.cpp.gtl:tgfs/src/vm/interp/vm_tgf_c.cpp"
 
 [ -f coredsl/plugins/com.minres.coredsl.generator.standalone/target/com.minres.coredsl.generator-1.0.0-SNAPSHOT.jar ] || (cd coredsl; mvn package)
 
