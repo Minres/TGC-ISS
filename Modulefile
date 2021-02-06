@@ -27,7 +27,7 @@ if {![info exists ::env(PROJECT)] && [file exists $::env(HOME)/.sdkman/candidate
     prepend-path PATH $::env(HOME)/.sdkman/candidates/sbt/1.4.4/bin
 }
 
-module load tools/cmake
+module load tools/cmake  tools/gcc-riscv64/9.2.0
 
 setenv PROJECT TGFS-ISS
 
