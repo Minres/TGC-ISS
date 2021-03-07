@@ -1,4 +1,5 @@
-set(ENABLE_CODEGEN "Enable code generation for supported cores" ON)
+cmake_minimum_required(VERSION 3.11)
+option(ENABLE_CODEGEN "Enable code generation for supported cores" ON)
 
 #helper to setup code generation and generate outputs
 set(GENERATOR_JAR ${tgfs_SOURCE_DIR}/../coredsl/com.minres.coredsl.generator.repository/target/com.minres.coredsl.generator-2.0.0-SNAPSHOT.jar)
