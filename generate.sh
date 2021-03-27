@@ -8,15 +8,16 @@ GENERATOR="java $JAVA_OPTS -jar coredsl/com.minres.coredsl.generator.repository/
 
 CORE_NAME=$1
 BACKEND=$2
+CORE_NAME_LC=`echo $CORE_NAME | tr '[:upper:]' '[:lower:]' `
 INPUT_FILE=tgfs/gen_input/TGFS.core_desc
 
 REPO_DIR=tgfs/gen_input/CoreDSL-Instruction-Set-Description 
 TMPL_DIR=tgfs/gen_input/templates/interp
 
 MAPPING=""
-MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME.h.gtl:tgfs/incl/iss/arch/${CORE_NAME}.h"
-MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME.cpp.gtl:tgfs/src/iss/${CORE_NAME}.cpp"
-MAPPING="$MAPPING -m ${TMPL_DIR}/vm_CORENAME.cpp.gtl:tgfs/src/vm/${BACKEND}/vm_${CORE_NAME}.cpp"
+MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME.h.gtl:tgfs/incl/iss/arch/${CORE_NAME_LC}.h"
+MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME.cpp.gtl:tgfs/src/iss/${CORE_NAME_LC}.cpp"
+MAPPING="$MAPPING -m ${TMPL_DIR}/vm_CORENAME.cpp.gtl:tgfs/src/vm/${BACKEND}/vm_${CORE_NAME_LC}.cpp"
 
 [ -f coredsl/com.minres.coredsl.generator.repository/target/com.minres.coredsl.generator-2.0.0-SNAPSHOT.jar ] || (cd coredsl; mvn package)
 
