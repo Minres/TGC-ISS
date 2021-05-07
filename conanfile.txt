@@ -10,7 +10,6 @@
     cmake
 
 [options]
-    seasocks:shared=True
     boost:fPIC=True
     boost:shared=False
     boost:header_only=False
