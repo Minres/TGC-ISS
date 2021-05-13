@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.11)
 option(ENABLE_CODEGEN "Enable code generation for supported cores" ON)
 
 #helper to setup code generation and generate outputs
-set(GENERATOR_JAR ${tgfs_SOURCE_DIR}/../coredsl/com.minres.coredsl.generator.repository/target/com.minres.coredsl.generator-2.0.0-SNAPSHOT.jar)
+set(GENERATOR_JAR ${dbt-core-tgc_SOURCE_DIR}/../coredsl/com.minres.coredsl.generator.repository/target/com.minres.coredsl.generator-2.0.0-SNAPSHOT.jar)
 
-if(EXISTS ${tgfs_SOURCE_DIR}/../coredsl/pom.xml AND NOT EXISTS ${GENERATOR_JAR})
+if(EXISTS ${dbt-core-tgc_SOURCE_DIR}/../coredsl/pom.xml AND NOT EXISTS ${GENERATOR_JAR})
    execute_process(
    		COMMAND mvn package
-   		WORKING_DIRECTORY ${tgfs_SOURCE_DIR}/../coredsl
+   		WORKING_DIRECTORY ${dbt-core-tgc_SOURCE_DIR}/../coredsl
 	    RESULT_VARIABLE return_code)
 endif()
 
@@ -47,29 +47,29 @@ set(JAVA_OPTS --add-modules ALL-SYSTEM --add-opens=java.base/java.io=ALL-UNNAMED
   --add-opens=java.rmi/java.rmi.server=ALL-UNNAMED --add-opens=java.sql/java.sql=ALL-UNNAMED)
 set(GENERATOR java ${JAVA_OPTS} -jar ${GENERATOR_JAR})
 
-set(INPUT_DIR ${tgfs_SOURCE_DIR}/gen_input)
-set(REPO_DIR ${tgfs_SOURCE_DIR}/gen_input/CoreDSL-Instruction-Set-Description)
-set(TMPL_DIR ${tgfs_SOURCE_DIR}/gen_input/templates/)
+set(INPUT_DIR ${dbt-core-tgc_SOURCE_DIR}/gen_input)
+set(REPO_DIR ${dbt-core-tgc_SOURCE_DIR}/gen_input/CoreDSL-Instruction-Set-Description)
+set(TMPL_DIR ${dbt-core-tgc_SOURCE_DIR}/gen_input/templates/)
 
 if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
     	macro(gen_coredsl CORE_NAME INPUT_FILE BACKEND)
-            message(STATUS "Adding generation steps for ${CORE_NAME} in ${tgfs_SOURCE_DIR} for ${BACKEND}")
+            message(STATUS "Adding generation steps for ${CORE_NAME} in ${dbt-core-tgc_SOURCE_DIR} for ${BACKEND}")
             
     		string(TOUPPER ${BACKEND} BE_UPPER)
     		string(TOLOWER ${CORE_NAME} CORE_NAMEL)
 
-            if(EXISTS ${tgfs_SOURCE_DIR}/generate.sh AND NOT EXISTS ${tgfs_SOURCE_DIR}/incl/iss/arch/${CORE_NAMEL}.h)
+            if(EXISTS ${dbt-core-tgc_SOURCE_DIR}/generate.sh AND NOT EXISTS ${dbt-core-tgc_SOURCE_DIR}/incl/iss/arch/${CORE_NAMEL}.h)
                 # make sure source file exist initially 
                 execute_process(
-                    COMMAND /bin/bash ${tgfs_SOURCE_DIR}/../generate.sh $CORE_NAME $BACKEND
-                    WORKING_DIRECTORY ${tgfs_SOURCE_DIR}/..
+                    COMMAND /bin/bash ${dbt-core-tgc_SOURCE_DIR}/../generate.sh $CORE_NAME $BACKEND
+                    WORKING_DIRECTORY ${dbt-core-tgc_SOURCE_DIR}/..
                     RESULT_VARIABLE return_code)
             endif()
 
-    		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.h.gtl:${tgfs_SOURCE_DIR}/incl/iss/arch/${CORE_NAMEL}.h")
-    		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.cpp.gtl:${tgfs_SOURCE_DIR}/src/iss/${CORE_NAMEL}.cpp")
-    		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl:${tgfs_SOURCE_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp")
-    		set(${CORE_NAME}_OUTPUT_FILES ${tgfs_SOURCE_DIR}/incl/iss/arch/${CORE_NAMEL}.h ${tgfs_SOURCE_DIR}/src/iss/${CORE_NAMEL}.cpp ${tgfs_SOURCE_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp)
+    		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.h.gtl:${dbt-core-tgc_SOURCE_DIR}/incl/iss/arch/${CORE_NAMEL}.h")
+    		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.cpp.gtl:${dbt-core-tgc_SOURCE_DIR}/src/iss/${CORE_NAMEL}.cpp")
+    		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl:${dbt-core-tgc_SOURCE_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp")
+    		set(${CORE_NAME}_OUTPUT_FILES ${dbt-core-tgc_SOURCE_DIR}/incl/iss/arch/${CORE_NAMEL}.h ${dbt-core-tgc_SOURCE_DIR}/src/iss/${CORE_NAMEL}.cpp ${dbt-core-tgc_SOURCE_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp)
     		add_custom_command(
     		    COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
     		    DEPENDS ${GENERATOR_JAR} ${INPUT_FILE} ${TMPL_DIR}/CORENAME.h.gtl ${TMPL_DIR}/CORENAME.cpp.gtl ${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl
