@@ -3,6 +3,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${C
 
 project(TGFS-ISS VERSION 1.0.0 LANGUAGES CXX)
 
+set(CORE_NAME TGC_C CACHE STRING "The core to run verification on" )
 set(WITH_LLVM FALSE CACHE BOOL "Build LLVM based backend")
 
 include(GNUInstallDirs)
@@ -56,7 +57,7 @@ if (ENABLE_CLANG_TIDY)
 endif()
 
 include(CodeGen)
-gen_coredsl(TGF_C ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input/TGFS.core_desc interp)
+gen_coredsl(${CORE_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/tgfs_iss/tgfs/gen_input/TGFS.core_desc interp)
 
 add_subdirectory(dbt-core)
 add_subdirectory(scc)
