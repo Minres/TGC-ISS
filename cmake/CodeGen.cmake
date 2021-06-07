@@ -73,18 +73,25 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/iss/${CORE_NAMEL}.cpp")
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp")
     		set(${CORE_NAME}_OUTPUT_FILES ${DBT_CORE_TGC_DIR}/incl/iss/arch/${CORE_NAMEL}.h ${DBT_CORE_TGC_DIR}/src/iss/${CORE_NAMEL}.cpp ${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp)
-    		add_custom_command(
-    		    COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
-    		    DEPENDS ${GENERATOR_JAR} ${INPUT_FILE} ${TMPL_DIR}/CORENAME.h.gtl ${TMPL_DIR}/CORENAME.cpp.gtl ${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl
-    		    OUTPUT ${${CORE_NAME}_OUTPUT_FILES}
-    		    COMMENT "Generating code for ${CORE_NAME}."
-    		    USES_TERMINAL VERBATIM
-    		)    		
-    		add_custom_target(${CORE_NAME}_src DEPENDS ${${CORE_NAME}_OUTPUT_FILES})
+    		#add_custom_command(
+    		#    COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
+    		#    DEPENDS ${GENERATOR_JAR} ${INPUT_FILE} ${TMPL_DIR}/CORENAME.h.gtl ${TMPL_DIR}/CORENAME.cpp.gtl ${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl
+    		#    OUTPUT ${${CORE_NAME}_OUTPUT_FILES}
+    		#    COMMENT "Generating code for ${CORE_NAME}."
+    		#    USES_TERMINAL VERBATIM
+    		#)    		
+    		#add_custom_target(${CORE_NAME}_cpp DEPENDS ${${CORE_NAME}_OUTPUT_FILES})
+    		add_custom_target(${CORE_NAME}_cpp
+                COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
+                WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+                COMMENT "Generating ISS sources"
+                BYPRODUCTS ${${CORE_NAME}_OUTPUT_FILES}
+                USES_TERMINAL
+            )
     	endmacro()
 else()
 	macro(gen_coredsl CORE_NAME INPUT_FILE BACKEND)
-		add_custom_target(${CORE_NAME}_src)
+		add_custom_target(${CORE_NAME}_cpp)
         message(STATUS "Not adding generation steps for ${CORE_NAME}(${ENABLE_CODEGEN}, ${GENERATOR_JAR})")
 	endmacro()
 endif()
