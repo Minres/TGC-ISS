@@ -16,7 +16,7 @@
 					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.1336041151.1615713914" name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1297474963" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.1141103737" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
-							<builder buildPath="/TGFS-ISS/build/Debug" id="de.marw.cdt.cmake.core.genscriptbuilder.1100382234" keepEnvironmentInBuildfile="false" name="CMake Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="de.marw.cdt.cmake.core.genscriptbuilder"/>
+							<builder buildPath="/TGC-ISS/build/Debug" id="de.marw.cdt.cmake.core.genscriptbuilder.1100382234" keepEnvironmentInBuildfile="false" name="CMake Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="de.marw.cdt.cmake.core.genscriptbuilder"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.740869785" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1934077203" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.17118862" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -45,20 +45,19 @@
 					<def name="ENABLE_CODEGEN" type="BOOL" val="ON"/>
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
 				</defs>
-				<undefs/>
 			</storageModule>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="TGFS-ISS.null.449389099" name="TGFS-ISS"/>
+		<project id="TGC-ISS.null.449389099" name="TGC-ISS"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Default">
-			<resource resourceType="PROJECT" workspacePath="/TGFS-ISS"/>
+			<resource resourceType="PROJECT" workspacePath="/TGC-ISS"/>
 		</configuration>
 		<configuration configurationName="Debug">
-			<resource resourceType="PROJECT" workspacePath="/TGFS-ISS"/>
+			<resource resourceType="PROJECT" workspacePath="/TGC-ISS"/>
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
