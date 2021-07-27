@@ -88,6 +88,10 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
                 BYPRODUCTS ${${CORE_NAME}_OUTPUT_FILES}
                 USES_TERMINAL
             )
+            execute_process(
+                COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
+                WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+                RESULT_VARIABLE return_code)
     	endmacro()
 else()
 	macro(gen_coredsl CORE_NAME INPUT_FILE BACKEND)
