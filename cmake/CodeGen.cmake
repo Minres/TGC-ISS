@@ -8,10 +8,16 @@ set(DBT_CORE_TGC_DIR ${ROOT_DIR}/tgfs)
 set(GENERATOR_JAR ${ROOT_DIR}/coredsl/com.minres.coredsl.generator.repository/target/com.minres.coredsl.generator-2.0.0-SNAPSHOT.jar)
 
 if(EXISTS ${ROOT_DIR}/coredsl/pom.xml AND NOT EXISTS ${GENERATOR_JAR})
-   execute_process(
+    execute_process(
    		COMMAND mvn package
    		WORKING_DIRECTORY ${ROOT_DIR}/coredsl
-	    RESULT_VARIABLE return_code)
+   		OUTPUT_VARIABLE StdOut
+   		ERROR_VARIABLE StdErr
+	    RESULT_VARIABLE Status
+	    ERROR_QUIET)
+    if(Status AND NOT Status EQUAL 0)
+        message(STATUS "mvn package call failed: ${Status}, ${StdOut}, ${StdErr}")
+    endif()
 endif()
 
 set(JAVA_OPTS --add-modules ALL-SYSTEM --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED
@@ -97,5 +103,8 @@ else()
 	macro(gen_coredsl CORE_NAME INPUT_FILE BACKEND)
 		add_custom_target(${CORE_NAME}_cpp)
         message(STATUS "Not adding generation steps for ${CORE_NAME}(${ENABLE_CODEGEN}, ${GENERATOR_JAR})")
+        if(NOT EXISTS ${GENERATOR_JAR})
+            message(STATUS "CoreDSL Generator ${GENERATOR_JAR} does not exists")
+        endif()
 	endmacro()
 endif()
