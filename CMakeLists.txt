@@ -57,7 +57,7 @@ if (ENABLE_CLANG_TIDY)
 endif()
 
 include(CodeGen)
-gen_coredsl(${CORE_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input/TGFS.core_desc interp)
+gen_coredsl(${CORE_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input/${CORE_NAME}.core_desc interp)
 
 add_subdirectory(dbt-core)
 add_subdirectory(scc)
