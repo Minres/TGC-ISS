@@ -7,7 +7,6 @@ set(CORE_NAME TGC_C CACHE STRING "The core to build the ISS for" )
 set(WITH_LLVM FALSE CACHE BOOL "Build LLVM based backend")
 
 include(GNUInstallDirs)
-include(Conan)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -80,6 +79,10 @@ conan_configure(REQUIRES ${CONAN_PACKAGES}
                 )
 conan_install()
 conan_setup(TARGETS)
+find_package(tcc)
+find_package(elfio)
+find_package(fmt)
+find_package(gsl-lite)
 
 # This line finds the boost lib and headers. 
 set(Boost_NO_BOOST_CMAKE ON) #  Don't do a find_package in config mode before searching for a regular boost install.
