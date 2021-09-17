@@ -33,7 +33,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 endif()
 
 include(ConanInline)
-conan_check()
+
 set(CONAN_BOOST_OPTIONS
 boost:fPIC=True
 boost:shared=True
@@ -73,12 +73,15 @@ if(NOT DEFINED ENV{SYSTEMC_HOME})
         systemc-cci:shared=False
         )
 endif()
-conan_configure(REQUIRES ${CONAN_PACKAGES}
+
+conan_check()
+conan_add_remote(NAME minres URL https://artifactory.minres.com/artifactory/api/conan/oss)
+conan_cmake_configure(REQUIRES ${CONAN_PACKAGES}
                 GENERATORS cmake_find_package
                 OPTIONS ${CONAN_SETTINGS}
                 )
 conan_install()
-conan_setup(TARGETS)
+
 find_package(tcc)
 find_package(elfio)
 find_package(fmt)
