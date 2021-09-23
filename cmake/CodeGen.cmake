@@ -70,7 +70,7 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
             if(EXISTS ${DBT_CORE_TGC_DIR}/generate.sh AND NOT EXISTS ${DBT_CORE_TGC_DIR}/incl/iss/arch/${CORE_NAMEL}.h)
                 # make sure source file exist initially 
                 execute_process(
-                    COMMAND /bin/bash ${DBT_CORE_TGC_DIR}/../generate.sh $CORE_NAME $BACKEND
+                    COMMAND /bin/bash ${DBT_CORE_TGC_DIR}/../generate.sh -c $CORE_NAME -b $BACKEND
                     WORKING_DIRECTORY ${DBT_CORE_TGC_DIR}/..
                     RESULT_VARIABLE return_code)
             endif()
