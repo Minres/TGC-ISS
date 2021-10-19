@@ -5,7 +5,7 @@
     gsl-lite/0.37.0
     elfio/3.8
     tcc/0.9.27
-    yaml-cpp/0.7.0
+    yaml-cpp/0.6.3
 	
 [generators]
     cmake

@@ -40,6 +40,7 @@ set(Boost_NO_BOOST_CMAKE ON) #  Don't do a find_package in config mode before se
 set(BOOST_ROOT ${CONAN_BOOST_ROOT})
 find_package(Threads)
 find_package(ZLIB)
+find_package(yaml-cpp REQUIRED)
 
 include(clang-format)
 set(ENABLE_CLANG_TIDY OFF CACHE BOOL "Add clang-tidy automatically to builds")
