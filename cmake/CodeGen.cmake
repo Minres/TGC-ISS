@@ -78,7 +78,7 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.h.gtl:${DBT_CORE_TGC_DIR}/incl/iss/arch/${CORE_NAMEL}.h")
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/iss/${CORE_NAMEL}.cpp")
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp")
-    		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME_instr.yaml.gtl:${DBT_CORE_TGC_DIR}/${CORE_NAMEL}_instr.yaml")
+    		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME_instr.yaml.gtl:${DBT_CORE_TGC_DIR}/${CORE_NAME}_instr.yaml")
     		
     		set(${CORE_NAME}_OUTPUT_FILES ${DBT_CORE_TGC_DIR}/incl/iss/arch/${CORE_NAMEL}.h ${DBT_CORE_TGC_DIR}/src/iss/${CORE_NAMEL}.cpp ${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp)
     		#add_custom_command(
