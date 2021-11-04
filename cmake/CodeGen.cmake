@@ -88,14 +88,15 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
     		#    COMMENT "Generating code for ${CORE_NAME}."
     		#    USES_TERMINAL VERBATIM
     		#)    		
-    		#add_custom_target(${CORE_NAME}_cpp DEPENDS ${${CORE_NAME}_OUTPUT_FILES})
-    		add_custom_target(${CORE_NAME}_cpp
-                COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
-                WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
-                COMMENT "Generating ISS sources"
-                BYPRODUCTS ${${CORE_NAME}_OUTPUT_FILES}
-                USES_TERMINAL
-            )
+    		if(NOT DEFINED ENV{CI})
+        		add_custom_target(${CORE_NAME}_cpp
+                    COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+                    COMMENT "Generating ISS sources"
+                    BYPRODUCTS ${${CORE_NAME}_OUTPUT_FILES}
+                    USES_TERMINAL
+                )
+            endif()
             execute_process(
                 COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
                 WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
