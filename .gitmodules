@@ -7,3 +7,6 @@
 [submodule "dbt-core"]
 	path = dbt-core
 	url = https://git.minres.com/DBT-RISE/DBT-RISE-Core.git
+[submodule "coredsl"]
+	path = coredsl
+	url = https://git.minres.com/DBT-RISE/CoreDSL.git
