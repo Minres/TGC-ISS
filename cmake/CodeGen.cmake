@@ -56,7 +56,6 @@ set(JAVA_OPTS --add-modules ALL-SYSTEM --add-opens=java.base/java.io=ALL-UNNAMED
   --add-opens=java.rmi/java.rmi.server=ALL-UNNAMED --add-opens=java.sql/java.sql=ALL-UNNAMED)
 set(GENERATOR java ${JAVA_OPTS} -jar ${GENERATOR_JAR})
 
-set(INPUT_DIR ${DBT_CORE_TGC_DIR}/gen_input)
 set(REPO_DIR ${DBT_CORE_TGC_DIR}/gen_input/CoreDSL-Instruction-Set-Description)
 set(TMPL_DIR ${DBT_CORE_TGC_DIR}/gen_input/templates/)
 
@@ -90,7 +89,7 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
     		#)    		
     		if(NOT DEFINED ENV{CI})
         		add_custom_target(${CORE_NAME}_cpp
-                    COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
+                    COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
                     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
                     COMMENT "Generating ISS sources"
                     BYPRODUCTS ${${CORE_NAME}_OUTPUT_FILES}
@@ -98,7 +97,7 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
                 )
             endif()
             execute_process(
-                COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
+                COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
                 WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
                 RESULT_VARIABLE return_code)
     	endmacro()

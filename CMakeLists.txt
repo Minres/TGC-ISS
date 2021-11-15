@@ -109,7 +109,11 @@ if (ENABLE_CLANG_TIDY)
 endif()
 
 include(CodeGen)
-gen_coredsl(${CORE_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input/${CORE_NAME}.core_desc interp)
+if(NOT CORE_DSL_INPUT_DIR)
+    set(CORE_DSL_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input)
+endif()
+
+gen_coredsl(${CORE_NAME} ${CORE_DSL_INPUT_DIR}/${CORE_NAME}.core_desc interp)
 
 add_subdirectory(dbt-core)
 add_subdirectory(scc)
