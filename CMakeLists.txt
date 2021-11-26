@@ -54,7 +54,6 @@ boost:without_nowide=True
 boost:without_python=True
 boost:without_random=True
 boost:without_regex=True
-boost:without_serialization=True
 boost:without_stacktrace=True
 boost:without_test=True
 boost:without_timer=True

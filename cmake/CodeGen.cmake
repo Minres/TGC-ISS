@@ -78,6 +78,9 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/iss/${CORE_NAMEL}.cpp")
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp")
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME_instr.yaml.gtl:${DBT_CORE_TGC_DIR}/${CORE_NAME}_instr.yaml")
+    		if(NOT EXISTS ${DBT_CORE_TGC_DIR}/${CORE_NAME}_cycles.json)
+                list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME_cyles.txt.gtl:${DBT_CORE_TGC_DIR}/${CORE_NAME}_cycles.json")
+            endif()
     		
     		set(${CORE_NAME}_OUTPUT_FILES ${DBT_CORE_TGC_DIR}/incl/iss/arch/${CORE_NAMEL}.h ${DBT_CORE_TGC_DIR}/src/iss/${CORE_NAMEL}.cpp ${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp)
     		#add_custom_command(
