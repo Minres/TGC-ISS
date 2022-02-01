@@ -38,10 +38,7 @@ set(CONAN_BOOST_OPTIONS
 boost:fPIC=True
 boost:shared=True
 boost:header_only=False 
-boost:without_context=True
 boost:without_contract=True
-boost:without_coroutine=True
-boost:without_fiber=True
 boost:without_graph=True
 boost:without_graph_parallel=True
 boost:without_iostreams=True
