@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 option(ENABLE_CODEGEN "Enable code generation for supported cores" ON)
 
 set(ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
-set(DBT_CORE_TGC_DIR ${ROOT_DIR}/tgfs)
+set(DBT_CORE_TGC_DIR ${ROOT_DIR}/dbt-rise-tgc)
 
 #helper to setup code generation and generate outputs
 set(GENERATOR_JAR ${ROOT_DIR}/coredsl/com.minres.coredsl.generator.repository/target/com.minres.coredsl.generator-2.0.0-SNAPSHOT.jar)
