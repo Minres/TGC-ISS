@@ -1,12 +1,12 @@
 [submodule "scc"]
 	path = scc
 	url = https://github.com/Minres/SystemC-Components.git
-[submodule "tgfs"]
-	path = dbt-rise-tgc
-	url = https://git.minres.com/DBT-RISE/DBT-RISE-TGFS.git
-[submodule "dbt-core"]
-	path = dbt-rise-core
-	url = https://git.minres.com/DBT-RISE/DBT-RISE-Core.git
 [submodule "coredsl"]
 	path = coredsl
 	url = https://git.minres.com/DBT-RISE/CoreDSL.git
+[submodule "dbt-rise-core"]
+	path = dbt-rise-core
+	url = https://git.minres.com/DBT-RISE/DBT-RISE-Core.git
+[submodule "dbt-rise-tgc"]
+	path = dbt-rise-tgc
+	url = https://git.minres.com/DBT-RISE/DBT-RISE-TGFS.git

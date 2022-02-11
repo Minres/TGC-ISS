@@ -111,7 +111,7 @@ endif()
 
 gen_coredsl(${CORE_NAME} ${CORE_DSL_INPUT_DIR}/${CORE_NAME}.core_desc interp)
 
-add_subdirectory(dbt-core)
+add_subdirectory(dbt-rise-core)
 add_subdirectory(scc)
-add_subdirectory(tgfs)
+add_subdirectory(dbt-rise-tgc)
 
