@@ -18,6 +18,7 @@ if {![info exists ::env(PROJECT)] && [file exists $::env(HOME)/.sdkman/candidate
     prereq java/11.0.9
 } else {
     prepend-path PATH $::env(HOME)/.sdkman/candidates/java/11.0.9.hs-adpt/bin
+    setenv JAVA_HOME $::env(HOME)/.sdkman/candidates/java/11.0.9.hs-adpt
 }
 
 if {![info exists ::env(PROJECT)] && [file exists $::env(HOME)/.sdkman/candidates/maven/3.6.3] != 1} { 
