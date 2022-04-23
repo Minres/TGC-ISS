@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 option(ENABLE_CODEGEN "Enable code generation for supported cores" ON)
 
 set(ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
-set(DBT_CORE_TGC_DIR ${ROOT_DIR}/tgfs)
+set(DBT_CORE_TGC_DIR ${ROOT_DIR}/dbt-rise-tgc)
 
 #helper to setup code generation and generate outputs
 set(GENERATOR_JAR ${ROOT_DIR}/coredsl/com.minres.coredsl.generator.repository/target/com.minres.coredsl.generator-2.0.0-SNAPSHOT.jar)
@@ -56,7 +56,6 @@ set(JAVA_OPTS --add-modules ALL-SYSTEM --add-opens=java.base/java.io=ALL-UNNAMED
   --add-opens=java.rmi/java.rmi.server=ALL-UNNAMED --add-opens=java.sql/java.sql=ALL-UNNAMED)
 set(GENERATOR java ${JAVA_OPTS} -jar ${GENERATOR_JAR})
 
-set(INPUT_DIR ${DBT_CORE_TGC_DIR}/gen_input)
 set(REPO_DIR ${DBT_CORE_TGC_DIR}/gen_input/CoreDSL-Instruction-Set-Description)
 set(TMPL_DIR ${DBT_CORE_TGC_DIR}/gen_input/templates/)
 
@@ -79,6 +78,7 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/iss/${CORE_NAMEL}.cpp")
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp")
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME_instr.yaml.gtl:${DBT_CORE_TGC_DIR}/${CORE_NAME}_instr.yaml")
+            list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME_cyles.txt.gtl:${DBT_CORE_TGC_DIR}/${CORE_NAME}_cycles.json:no")
     		
     		set(${CORE_NAME}_OUTPUT_FILES ${DBT_CORE_TGC_DIR}/incl/iss/arch/${CORE_NAMEL}.h ${DBT_CORE_TGC_DIR}/src/iss/${CORE_NAMEL}.cpp ${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp)
     		#add_custom_command(
@@ -90,7 +90,7 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
     		#)    		
     		if(NOT DEFINED ENV{CI})
         		add_custom_target(${CORE_NAME}_cpp
-                    COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
+                    COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
                     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
                     COMMENT "Generating ISS sources"
                     BYPRODUCTS ${${CORE_NAME}_OUTPUT_FILES}
@@ -98,7 +98,7 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
                 )
             endif()
             execute_process(
-                COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} -r ${REPO_DIR} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
+                COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
                 WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
                 RESULT_VARIABLE return_code)
     	endmacro()

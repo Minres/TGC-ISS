@@ -38,10 +38,7 @@ set(CONAN_BOOST_OPTIONS
 boost:fPIC=True
 boost:shared=True
 boost:header_only=False 
-boost:without_context=True
 boost:without_contract=True
-boost:without_coroutine=True
-boost:without_fiber=True
 boost:without_graph=True
 boost:without_graph_parallel=True
 boost:without_iostreams=True
@@ -54,7 +51,6 @@ boost:without_nowide=True
 boost:without_python=True
 boost:without_random=True
 boost:without_regex=True
-boost:without_serialization=True
 boost:without_stacktrace=True
 boost:without_test=True
 boost:without_timer=True
@@ -109,9 +105,13 @@ if (ENABLE_CLANG_TIDY)
 endif()
 
 include(CodeGen)
-gen_coredsl(${CORE_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input/${CORE_NAME}.core_desc interp)
+if(NOT CORE_DSL_INPUT_DIR)
+    set(CORE_DSL_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input)
+endif()
 
-add_subdirectory(dbt-core)
+gen_coredsl(${CORE_NAME} ${CORE_DSL_INPUT_DIR}/${CORE_NAME}.core_desc interp)
+
+add_subdirectory(dbt-rise-core)
 add_subdirectory(scc)
-add_subdirectory(tgfs)
+add_subdirectory(dbt-rise-tgc)
 
