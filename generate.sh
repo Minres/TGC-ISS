@@ -10,19 +10,25 @@ SCRIPTNAME=`basename "$SCRIPT"`
 function print_help {
     echo "Usage: $SCRIPTNAME [-h] -c <core name> -v <core variant> <input file>"
     echo "Generate ISS sources for TGC cores"
-    echo "  -c <name>       core name"
-    echo "  -b <backend>    ISS backend for which sources are generated, interp,tcc, or llvm"
+    echo "  -c <name>         core name"
+    echo "  -b <backend>      ISS backend for which sources are generated, interp,tcc, or llvm"
+    echo "  -r <repo dir>     repo used for generation"
+    echo "  -t <template dir> template dir used for generation"
     exit 0
 }
 
 
 CORE_NAME=
 BACKEND=
-while getopts 'c:b:h' c
+REPO_DIR=dbt-rise-tgc/gen_input/CoreDSL-Instruction-Set-Description 
+TMPL_DIR=dbt-rise-tgc/gen_input/templates
+while getopts 'c:b:r:t:h' c
 do
   case $c in
     c) CORE_NAME=$OPTARG ;;
     b) BACKEND=$OPTARG ;;
+    r) REPO_DIR=$OPTARG ;;
+    t) TMPL_DIR=$OPTARG ;;
     h) print_help ;;
   esac
 done
@@ -44,15 +50,13 @@ GENERATOR="java $JAVA_OPTS -jar coredsl/com.minres.coredsl.generator.repository/
 
 INPUT_FILE=$1
 
-REPO_DIR=tgfs/gen_input/CoreDSL-Instruction-Set-Description 
-TMPL_DIR=tgfs/gen_input/templates
 CORE_NAME_LC=`echo "$CORE_NAME" | tr '[:upper:]' '[:lower:]'`
 
 MAPPING=""
-MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME.h.gtl:tgfs/incl/iss/arch/${CORE_NAME_LC}.h"
-MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME.cpp.gtl:tgfs/src/iss/${CORE_NAME_LC}.cpp"
-MAPPING="$MAPPING -m ${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl:tgfs/src/vm/${BACKEND}/vm_${CORE_NAME_LC}.cpp"
-MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME_instr.yaml.gtl:tgfs/${CORE_NAME_LC}_instr.yaml"
+MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME.h.gtl:dbt-rise-tgc/incl/iss/arch/${CORE_NAME_LC}.h"
+MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME.cpp.gtl:dbt-rise-tgc/src/iss/${CORE_NAME_LC}.cpp"
+MAPPING="$MAPPING -m ${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl:dbt-rise-tgc/src/vm/${BACKEND}/vm_${CORE_NAME_LC}.cpp"
+MAPPING="$MAPPING -m ${TMPL_DIR}/CORENAME_instr.yaml.gtl:dbt-rise-tgc/${CORE_NAME_LC}_instr.yaml"
 
 [ -f coredsl/com.minres.coredsl.generator.repository/target/com.minres.coredsl.generator-2.0.0-SNAPSHOT.jar ] || (cd coredsl; mvn package)
 
