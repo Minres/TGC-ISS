@@ -74,7 +74,7 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
                 RESULT_VARIABLE return_code)
         endif()
         
-        if(${CORE_NAME} =="TGC_C")
+        if(${CORE_NAME} STREQUAL  "TGC_C")
             list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.h.gtl:${DBT_CORE_TGC_DIR}/src/iss/arch/${CORE_NAMEL}.h")
             list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/iss/arch/${CORE_NAMEL}.cpp")
             list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp")
