@@ -36,7 +36,7 @@ include(ConanInline)
 
 set(CONAN_BOOST_OPTIONS
 boost:fPIC=True
-boost:shared=True
+boost:shared=False
 boost:header_only=False 
 boost:without_contract=True
 boost:without_graph=True
