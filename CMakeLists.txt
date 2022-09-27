@@ -3,6 +3,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${C
 
 project(TGFS-ISS VERSION 1.0.0 LANGUAGES CXX)
 
+option(CODEGEN "enable generation of ISS code" ON)
 set(CORE_NAME TGC_C CACHE STRING "The core to build the ISS for" )
 set(WITH_LLVM FALSE CACHE BOOL "Build LLVM based backend")
 
@@ -104,12 +105,14 @@ if (ENABLE_CLANG_TIDY)
     endif()
 endif()
 
-include(CodeGen)
-if(NOT CORE_DSL_INPUT_DIR)
-    set(CORE_DSL_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input)
+if(CODEGEN)
+	include(CodeGen)
+	if(NOT CORE_DSL_INPUT_DIR)
+	    set(CORE_DSL_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input)
+	endif()
+	
+	gen_coredsl(${CORE_NAME} ${CORE_DSL_INPUT_DIR}/${CORE_NAME}.core_desc interp)
 endif()
-
-gen_coredsl(${CORE_NAME} ${CORE_DSL_INPUT_DIR}/${CORE_NAME}.core_desc interp)
 
 add_subdirectory(dbt-rise-core)
 add_subdirectory(scc)
