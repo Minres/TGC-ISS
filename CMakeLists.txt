@@ -9,10 +9,12 @@ set(WITH_LLVM FALSE CACHE BOOL "Build LLVM based backend")
 
 include(GNUInstallDirs)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+set(CMAKE_INSTALL_RPATH "$\{ORIGIN\}")
 include(CheckCXXCompilerFlag)
 
 CHECK_CXX_COMPILER_FLAG("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
@@ -34,10 +36,15 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 endif()
 
 include(ConanInline)
+if(BUILD_SHARED_LIBS)
+	set(SHARED_FLAG "True")
+else()
+	set(SHARED_FLAG "False")
+endif()
 
 set(CONAN_BOOST_OPTIONS
 boost:fPIC=True
-boost:shared=False
+boost:shared=${SHARED_FLAG}
 boost:header_only=False 
 boost:without_contract=True
 boost:without_graph=True
@@ -66,7 +73,7 @@ if(NOT DEFINED ENV{SYSTEMC_HOME})
         systemc-cci/1.0.0
         )
     set(CONAN_SETTINGS ${CONAN_SETTINGS}  
-        #systemc:phase_cb=False
+        systemc:shared=${SHARED_FLAG}
         systemc-cci:shared=False
         )
 endif()
