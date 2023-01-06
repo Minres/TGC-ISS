@@ -65,7 +65,7 @@ boost:without_timer=True
 boost:without_type_erasure=True
 boost:without_wave=True
 )
-set(CONAN_PACKAGES fmt/6.1.2 zlib/1.2.11 boost/1.75.0 gsl-lite/0.37.0 elfio/3.8 tcc/0.9.27 lz4/1.9.3)
+set(CONAN_PACKAGES fmt/6.1.2 zlib/1.2.11 boost/1.75.0 gsl-lite/0.37.0 elfio/3.8 tcc/0.9.27 lz4/1.9.3 jsoncpp/1.9.5)
 set(CONAN_SETTINGS fmt:header_only=True ${CONAN_BOOST_OPTIONS})
 if(NOT DEFINED ENV{SYSTEMC_HOME})
     set(CONAN_PACKAGES ${CONAN_PACKAGES}
