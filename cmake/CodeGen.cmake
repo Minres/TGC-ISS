@@ -69,16 +69,17 @@ if(ENABLE_CODEGEN AND EXISTS ${GENERATOR_JAR})
             list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/iss/arch/${CORE_NAMEL}.cpp")
             #list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME_decoder.cpp.gtl:${DBT_CORE_TGC_DIR}/src/iss/arch/${CORE_NAMEL}_decoder.cpp")
             list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp")
+            set(${CORE_NAME}_OUTPUT_FILES ${DBT_CORE_TGC_DIR}/incl/iss/arch/${CORE_NAMEL}.h ${DBT_CORE_TGC_DIR}/src/iss/${CORE_NAMEL}.cpp ${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp)
         else()
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.h.gtl:${DBT_CORE_TGC_DIR}/src-gen/iss/arch/${CORE_NAMEL}.h")
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src-gen/iss/arch/${CORE_NAMEL}.cpp")
             #list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME_decoder.cpp.gtl:${DBT_CORE_TGC_DIR}/src-gen/iss/arch/${CORE_NAMEL}_decoder.cpp")
     		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/${BACKEND}/CORENAME.cpp.gtl:${DBT_CORE_TGC_DIR}/src-gen/vm/interp/vm_${CORE_NAMEL}.cpp")
+            set(${CORE_NAME}_OUTPUT_FILES ${DBT_CORE_TGC_DIR}/src-gen/iss/arch/${CORE_NAMEL}.h ${DBT_CORE_TGC_DIR}/src-gen/iss/arch/${CORE_NAMEL}.cpp ${DBT_CORE_TGC_DIR}/src-gen/vm/interp/vm_${CORE_NAMEL}.cpp)
 		endif()
 		list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME_instr.yaml.gtl:${DBT_CORE_TGC_DIR}/${CORE_NAME}_instr.yaml")
         list(APPEND ${CORE_NAME}_MAPPING -m "${TMPL_DIR}/CORENAME_cyles.txt.gtl:${DBT_CORE_TGC_DIR}/${CORE_NAME}_cycles.json:no")
 		
-		set(${CORE_NAME}_OUTPUT_FILES ${DBT_CORE_TGC_DIR}/incl/iss/arch/${CORE_NAMEL}.h ${DBT_CORE_TGC_DIR}/src/iss/${CORE_NAMEL}.cpp ${DBT_CORE_TGC_DIR}/src/vm/interp/vm_${CORE_NAMEL}.cpp)
 		if(NOT DEFINED ENV{CI})
     		add_custom_target(${CORE_NAME}_cpp
                 COMMAND ${GENERATOR} -b ${BE_UPPER} -c ${CORE_NAME} ${${CORE_NAME}_MAPPING} ${INPUT_FILE}
