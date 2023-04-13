@@ -9,7 +9,7 @@ set(WITH_LLVM FALSE CACHE BOOL "Build LLVM based backend")
 
 include(GNUInstallDirs)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -67,7 +67,7 @@ boost:without_wave=True
 )
 set(CONAN_PACKAGES fmt/6.1.2 zlib/1.2.11 boost/1.75.0 gsl-lite/0.37.0 elfio/3.8 tcc/0.9.27 lz4/1.9.3 jsoncpp/1.9.5)
 set(CONAN_SETTINGS fmt:header_only=True ${CONAN_BOOST_OPTIONS})
-if(NOT DEFINED ENV{SYSTEMC_HOME})
+if(NOT USE_CWR_SYSTEMC AND NOT USE_NCSC_SYSTEMC AND NOT DEFINED ENV{SYSTEMC_HOME})
     set(CONAN_PACKAGES ${CONAN_PACKAGES}
         systemc/2.3.3
         systemc-cci/1.0.0
@@ -79,13 +79,13 @@ if(NOT DEFINED ENV{SYSTEMC_HOME})
 endif()
 
 conan_check()
-conan_add_remote(NAME minres URL https://artifactory.minres.com/artifactory/api/conan/oss)
+conan_add_remote(NAME minres URL https://git.minres.com/api/packages/Tooling/conan)
 conan_cmake_configure(REQUIRES ${CONAN_PACKAGES}
                 GENERATORS cmake_find_package
                 OPTIONS ${CONAN_SETTINGS}
                 )
 conan_install()
-
+set(CONAN_CMAKE_SILENT_OUTPUT ON)               
 find_package(tcc)
 find_package(elfio)
 find_package(fmt)
