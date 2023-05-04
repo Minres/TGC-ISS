@@ -45,7 +45,6 @@
 			<storageModule buildDir="build/${ConfigName}" moduleId="de.marw.cdt.cmake.core.settings">
 				<options/>
 				<defs>
-					<def name="ENABLE_CODEGEN" type="BOOL" val="ON"/>
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
 				</defs>
 			</storageModule>
@@ -104,7 +103,6 @@
 			<storageModule buildDir="build/${ConfigName}" moduleId="de.marw.cdt.cmake.core.settings">
 				<options/>
 				<defs>
-					<def name="ENABLE_CODEGEN" type="BOOL" val="ON"/>
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
 				</defs>
 			</storageModule>
