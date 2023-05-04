@@ -141,15 +141,6 @@ if (ENABLE_CLANG_TIDY)
     endif()
 endif()
 
-if(CODEGEN)
-	include(CodeGen)
-	if(NOT CORE_DSL_INPUT_DIR)
-	    set(CORE_DSL_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input)
-	endif()
-	
-	gen_coredsl(${CORE_NAME} ${CORE_DSL_INPUT_DIR}/${CORE_NAME}.core_desc interp)
-endif()
-
 add_subdirectory(dbt-rise-core)
 add_subdirectory(scc)
 add_subdirectory(dbt-rise-tgc)
