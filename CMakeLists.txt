@@ -3,16 +3,18 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${C
 
 project(TGFS-ISS VERSION 1.0.0 LANGUAGES CXX)
 
+option(CODEGEN "enable generation of ISS code" ON)
 set(CORE_NAME TGC_C CACHE STRING "The core to build the ISS for" )
 set(WITH_LLVM FALSE CACHE BOOL "Build LLVM based backend")
-
-include(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+set(CMAKE_INSTALL_RPATH "${ORIGIN}")
 include(CheckCXXCompilerFlag)
+include(GNUInstallDirs)
 
 CHECK_CXX_COMPILER_FLAG("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
 if(COMPILER_SUPPORTS_MARCH_NATIVE)
@@ -33,10 +35,15 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 endif()
 
 include(ConanInline)
+if(BUILD_SHARED_LIBS)
+	set(SHARED_FLAG "True")
+else()
+	set(SHARED_FLAG "False")
+endif()
 
 set(CONAN_BOOST_OPTIONS
 boost:fPIC=True
-boost:shared=True
+boost:shared=${SHARED_FLAG}
 boost:header_only=False 
 boost:without_contract=True
 boost:without_graph=True
@@ -57,33 +64,63 @@ boost:without_timer=True
 boost:without_type_erasure=True
 boost:without_wave=True
 )
-set(CONAN_PACKAGES fmt/6.1.2 zlib/1.2.11 boost/1.75.0 gsl-lite/0.37.0 elfio/3.8 tcc/0.9.27)
-set(CONAN_SETTINGS fmt:header_only=True ${CONAN_BOOST_OPTIONS})
-if(NOT DEFINED ENV{SYSTEMC_HOME})
-    set(CONAN_PACKAGES ${CONAN_PACKAGES}
+
+set(B2_VERSION 4.9.3)
+set(CONAN_PACKAGE_LIST 
+	fmt/8.0.1
+	spdlog/1.9.2
+	boost/1.75.0 
+	gsl-lite/0.37.0 
+	elfio/3.8 
+	tcc/0.9.27 
+	lz4/1.9.3 
+	yaml-cpp/0.7.0 
+	jsoncpp/1.9.5
+)
+
+set(CONAN_PACKAGE_OPTIONS fmt:header_only=True ${CONAN_BOOST_OPTIONS})
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+     list(APPEND CONAN_PACKAGE_OPTIONS lua:compile_as_cpp=False)
+     list(APPEND CONAN_PACKAGE_LIST tcc/0.9.27 seasocks/1.4.4 lua/5.4.3)
+endif()
+if(NOT USE_CWR_SYSTEMC AND NOT USE_NCSC_SYSTEMC AND NOT DEFINED ENV{SYSTEMC_HOME})
+    set(CONAN_PACKAGE_LIST ${CONAN_PACKAGE_LIST}
         systemc/2.3.3
         systemc-cci/1.0.0
         )
-    set(CONAN_SETTINGS ${CONAN_SETTINGS}  
-        #systemc:phase_cb=False
-        systemc-cci:shared=False
+    set(CONAN_PACKAGE_OPTIONS ${CONAN_PACKAGE_OPTIONS}  
+        systemc:shared=${SHARED_FLAG}
+        systemc-cci:shared=${SHARED_FLAG}
         )
 endif()
 
 conan_check()
-conan_add_remote(NAME minres URL https://artifactory.minres.com/artifactory/api/conan/oss)
-conan_cmake_configure(REQUIRES ${CONAN_PACKAGES}
+conan_add_remote(NAME minres URL https://git.minres.com/api/packages/Tooling/conan)
+# Boost on CentOS 7 quirks: the b2 of conan-center is build against a newer libstdc++ and therefore does not run
+# with the oooooold libs on CentOS 7. Therefore we build our own version of b2 if it is not there
+set(B2_META $ENV{HOME}/.conan/data/b2/${B2_VERSION}/_/_/metadata.json)
+if(DEFINED ENV{CONAN_USER_HOME})
+	set(B2_META $ENV{CONAN_USER_HOME}/.conan/data/b2/${B2_VERSION}/_/_/metadata.json)
+endif()
+if(NOT EXISTS ${B2_META})
+	conan_configure(REQUIRES b2/${B2_VERSION})
+	conan_cmake_autodetect(settings)
+	conan_cmake_install(PATH_OR_REFERENCE . BUILD b2 SETTINGS ${settings})
+endif()
+# Boost on CentOS 7 quirks end
+conan_cmake_configure(REQUIRES ${CONAN_PACKAGE_LIST}
                 GENERATORS cmake_find_package
-                OPTIONS ${CONAN_SETTINGS}
+                OPTIONS ${CONAN_PACKAGE_OPTIONS}
                 )
+conan_cmake_autodetect(settings)
 conan_install()
-
-find_package(tcc)
+set(CONAN_CMAKE_SILENT_OUTPUT ON)               
+find_package(tcc QUIET)
 find_package(elfio)
 find_package(fmt)
+find_package(spdlog)
 find_package(gsl-lite)
 
-# This line finds the boost lib and headers. 
 set(Boost_NO_BOOST_CMAKE ON) #  Don't do a find_package in config mode before searching for a regular boost install.
 set(BOOST_ROOT ${CONAN_BOOST_ROOT})
 find_package(Threads)
@@ -103,13 +140,6 @@ if (ENABLE_CLANG_TIDY)
         set(CMAKE_CXX_CLANG_TIDY "" CACHE STRING "" FORCE) # delete it
     endif()
 endif()
-
-include(CodeGen)
-if(NOT CORE_DSL_INPUT_DIR)
-    set(CORE_DSL_INPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tgfs/gen_input)
-endif()
-
-gen_coredsl(${CORE_NAME} ${CORE_DSL_INPUT_DIR}/${CORE_NAME}.core_desc interp)
 
 add_subdirectory(dbt-rise-core)
 add_subdirectory(scc)

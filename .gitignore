@@ -1,3 +1,7 @@
 /build/
 /Debug/
 .settings
+/.venv
+/Debug-PA/
+/_build/
+/install/
