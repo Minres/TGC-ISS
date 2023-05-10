@@ -67,6 +67,7 @@ Assuming environment for Platform Architect is properly set up.
   cd TGC-ISS/
   export TGFS_INSTALL_ROOT `pwd`/install
   export SNPS_ENABLE_MEM_ON_DEMAND_IN_GENERIC_MEM=1
+  source $COWAREHOME/SLS/linux/setup.sh pae
   export CC=$COWAREHOME/SLS/linux/common/bin/gcc
   export CXX=$COWAREHOME/SLS/linux/common/bin/g++
   cmake -S . -B build/PA -DCMAKE_BUILD_TYPE=Debug -DUSE_CWR_SYSTEMC=ON \
@@ -74,5 +75,12 @@ Assuming environment for Platform Architect is properly set up.
   cmake --build build/PA --target install -j16
 
 ```
+The Synopsys PA installation requirements may vary on your system.
+Now you may change to the directory dbt-rise-tgc/contrib to import the core model
 
-Now you may change to dbt-rise-tgc/contrib to import the core model
+```
+
+cd dbt-rise-tgc/contrib
+pct tgc_import.tcl
+
+```
