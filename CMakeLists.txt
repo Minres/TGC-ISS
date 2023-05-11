@@ -72,7 +72,6 @@ set(CONAN_PACKAGE_LIST
 	boost/1.75.0 
 	gsl-lite/0.37.0 
 	elfio/3.8 
-	tcc/0.9.27 
 	lz4/1.9.3 
 	yaml-cpp/0.7.0 
 	jsoncpp/1.9.5
@@ -80,8 +79,7 @@ set(CONAN_PACKAGE_LIST
 
 set(CONAN_PACKAGE_OPTIONS fmt:header_only=True ${CONAN_BOOST_OPTIONS})
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-     list(APPEND CONAN_PACKAGE_OPTIONS lua:compile_as_cpp=False)
-     list(APPEND CONAN_PACKAGE_LIST tcc/0.9.27 seasocks/1.4.4 lua/5.4.3)
+     list(APPEND CONAN_PACKAGE_LIST tcc/0.9.27)
 endif()
 if(NOT USE_CWR_SYSTEMC AND NOT USE_NCSC_SYSTEMC AND NOT DEFINED ENV{SYSTEMC_HOME})
     set(CONAN_PACKAGE_LIST ${CONAN_PACKAGE_LIST}
@@ -93,7 +91,10 @@ if(NOT USE_CWR_SYSTEMC AND NOT USE_NCSC_SYSTEMC AND NOT DEFINED ENV{SYSTEMC_HOME
         systemc-cci:shared=${SHARED_FLAG}
         )
 endif()
-
+if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbt-rise-plugins)
+     list(APPEND CONAN_PACKAGE_OPTIONS lua:compile_as_cpp=False)
+     list(APPEND CONAN_PACKAGE_LIST lua/5.4.3)
+endif()
 conan_check()
 conan_add_remote(NAME minres URL https://git.minres.com/api/packages/Tooling/conan)
 # Boost on CentOS 7 quirks: the b2 of conan-center is build against a newer libstdc++ and therefore does not run
@@ -144,4 +145,7 @@ endif()
 add_subdirectory(dbt-rise-core)
 add_subdirectory(scc)
 add_subdirectory(dbt-rise-tgc)
+if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbt-rise-plugins)
+	add_subdirectory(dbt-rise-plugins)
+endif()
 
