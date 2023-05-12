@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.16)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_CURRENT_SOURCE_DIR}/scc/cmake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scc/cmake)
 
 project(TGFS-ISS VERSION 1.0.0 LANGUAGES CXX)
 
 set(WITH_LLVM FALSE CACHE BOOL "Build LLVM based backend")
 if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
-	option(USE_CWR_SYSTEMC "Build for PA SystemnC" OFF)
+	###########################################################################
+	# stand alone build settings
+	###########################################################################
 	set(CORE_NAME TGC_C CACHE STRING "The core to build the ISS for" )
 	
 	set(CMAKE_CXX_STANDARD 14)
@@ -26,7 +28,6 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	
 	if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	    set(warnings "-Wall -Wextra -Werror")
-	    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_USE_CXX11_ABI=0")
 	    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 	    set(CMAKE_C_FLAGS_RELEASE "-O3 -DNDEBUG")
 	elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
@@ -65,7 +66,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	boost:without_wave=True
 	)
 	
-	set(B2_VERSION 4.9.3)
+	set(B2_VERSION 4.9.6)
 	set(CONAN_PACKAGE_LIST 
 		fmt/8.0.1
 		spdlog/1.9.2
@@ -89,8 +90,10 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 
 	conan_check()
 	conan_add_remote(NAME minres URL https://git.minres.com/api/packages/Tooling/conan)
+	###########################################################################
 	# Boost on CentOS 7 quirks: the b2 of conan-center is build against a newer libstdc++ and therefore does not run
 	# with the oooooold libs on CentOS 7. Therefore we build our own version of b2 if it is not there
+	###########################################################################
 	set(B2_META $ENV{HOME}/.conan/data/b2/${B2_VERSION}/_/_/metadata.json)
 	if(DEFINED ENV{CONAN_USER_HOME})
 		set(B2_META $ENV{CONAN_USER_HOME}/.conan/data/b2/${B2_VERSION}/_/_/metadata.json)
@@ -100,7 +103,9 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 		conan_cmake_autodetect(settings)
 		conan_cmake_install(PATH_OR_REFERENCE . BUILD b2 SETTINGS ${settings})
 	endif()
+	###########################################################################
 	# Boost on CentOS 7 quirks end
+	###########################################################################
 	conan_cmake_configure(REQUIRES ${CONAN_PACKAGE_LIST}
 	                GENERATORS cmake_find_package
 	                OPTIONS ${CONAN_PACKAGE_OPTIONS}
