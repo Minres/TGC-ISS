@@ -6,3 +6,6 @@
 /_build/
 /install/
 /analysis_results
+.vscode
+*.log
+tcc_jit*.c
