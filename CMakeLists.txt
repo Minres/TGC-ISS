@@ -76,6 +76,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 		lz4/1.9.3 
 		yaml-cpp/0.7.0 
 		jsoncpp/1.9.5
+		yaml-cpp/0.7.0 
 	)
 	set(CONAN_PACKAGE_OPTIONS fmt:header_only=True ${CONAN_BOOST_OPTIONS})
 
