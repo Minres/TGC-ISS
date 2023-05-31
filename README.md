@@ -65,7 +65,7 @@ Assuming environment for Platform Architect is properly set up.
 ```
 
   cd TGC-ISS/
-  export TGFS_INSTALL_ROOT `pwd`/install
+  export TGFS_INSTALL_ROOT=`pwd`/install
   export SNPS_ENABLE_MEM_ON_DEMAND_IN_GENERIC_MEM=1
   source $COWAREHOME/SLS/linux/setup.sh pae
   export CC=$COWAREHOME/SLS/linux/common/bin/gcc
