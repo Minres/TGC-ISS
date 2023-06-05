@@ -8,4 +8,6 @@
 /analysis_results
 .vscode
 *.log
-tcc_jit*.c
+*tcc_jit*.c
+*.disass
+*.trc
