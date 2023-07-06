@@ -11,3 +11,4 @@
 *tcc_jit*.c
 *.disass
 *.trc
+/*.core_desc
