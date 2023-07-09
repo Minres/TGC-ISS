@@ -82,6 +82,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 
 	if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 	     list(APPEND CONAN_PACKAGE_LIST tcc/0.9.27)
+	     set(WITH_TCC ON)
 	endif()
 
 	if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbt-rise-plugins)
