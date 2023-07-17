@@ -67,6 +67,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	)
 	
 	set(B2_VERSION 4.9.6)
+	set(CM_VERSION 3.20.5)
 	set(CONAN_PACKAGE_LIST 
 		fmt/8.0.1
 		spdlog/1.9.2
@@ -76,7 +77,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 		lz4/1.9.3 
 		yaml-cpp/0.7.0 
 		jsoncpp/1.9.5
-		yaml-cpp/0.7.0 
+		zlib/1.2.13
 	)
 	set(CONAN_PACKAGE_OPTIONS fmt:header_only=True ${CONAN_BOOST_OPTIONS})
 
@@ -85,6 +86,11 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	     set(WITH_TCC ON)
 	endif()
 
+	if(WITH_LLVM)
+	    list(APPEND CONAN_PACKAGE_LIST llvm-core/13.0.0)
+		list(APPEND CONAN_PACKAGE_OPTIONS libiconv:shared=True)
+	endif()
+	
 	if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbt-rise-plugins)
 	     list(APPEND CONAN_PACKAGE_OPTIONS lua:compile_as_cpp=False)
 	     list(APPEND CONAN_PACKAGE_LIST lua/5.4.3)
@@ -97,13 +103,20 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	# with the oooooold libs on CentOS 7. Therefore we build our own version of b2 if it is not there
 	###########################################################################
 	set(B2_META $ENV{HOME}/.conan/data/b2/${B2_VERSION}/_/_/metadata.json)
+	set(CM_META $ENV{HOME}/.conan/data/cmake/${CM_VERSION}/_/_/metadata.json)
 	if(DEFINED ENV{CONAN_USER_HOME})
 		set(B2_META $ENV{CONAN_USER_HOME}/.conan/data/b2/${B2_VERSION}/_/_/metadata.json)
+		set(CMAKE_META $ENV{CONAN_USER_HOME}/.conan/data/cmake/${CM_VERSION}/_/_/metadata.json)
 	endif()
 	if(NOT EXISTS ${B2_META})
 		conan_configure(REQUIRES b2/${B2_VERSION})
-		conan_cmake_autodetect(settings)
+		conan_cmake_autodetect(settings BUILD_TYPE Release)
 		conan_cmake_install(PATH_OR_REFERENCE . BUILD b2 SETTINGS ${settings})
+	endif()
+	if(NOT EXISTS ${CM_META})
+		conan_configure(REQUIRES cmake/${CM_VERSION})
+		conan_cmake_autodetect(settings BUILD_TYPE Release)
+		conan_cmake_install(PATH_OR_REFERENCE . BUILD cmake SETTINGS ${settings})
 	endif()
 	###########################################################################
 	# Boost on CentOS 7 quirks end
