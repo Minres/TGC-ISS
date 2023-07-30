@@ -48,11 +48,11 @@
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
 				</defs>
 			</storageModule>
-			<storageModule buildDir="build/${ConfigName}" dirtyTs="1688934521924" moduleId="de.marw.cmake4eclipse.mbs.settings">
+			<storageModule buildDir="build/${ConfigName}" dirtyTs="1690652450090" moduleId="de.marw.cmake4eclipse.mbs.settings">
 				<options/>
 				<defs>
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="Debug"/>
-					<def name="BUILD_SHARED_LIBS" type="BOOL" val="ON"/>
+					<def name="BUILD_SHARED_LIBS" type="BOOL" val="OFF"/>
 					<def name="CODEGEN" type="BOOL" val="OFF"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
 					<def name="WITH_TCC" type="BOOL" val="ON"/>
