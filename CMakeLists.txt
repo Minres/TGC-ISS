@@ -129,10 +129,9 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	conan_install()
 	set(CONAN_CMAKE_SILENT_OUTPUT ON)               
 	
-	find_package(tcc QUIET)
-	find_package(elfio)
 	find_package(fmt)
 	find_package(spdlog)
+	find_package(lz4)
 	find_package(gsl-lite)
 	
 	set(Boost_NO_BOOST_CMAKE ON) #  Don't do a find_package in config mode before searching for a regular boost install.
@@ -152,3 +151,4 @@ if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbt-rise-plugins)
 	add_subdirectory(dbt-rise-plugins)
 endif()
 
+include(CTest)
