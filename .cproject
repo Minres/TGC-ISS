@@ -48,14 +48,14 @@
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
 				</defs>
 			</storageModule>
-			<storageModule buildDir="build/${ConfigName}" dirtyTs="1685097774834" moduleId="de.marw.cmake4eclipse.mbs.settings">
+			<storageModule buildDir="build/${ConfigName}" dirtyTs="1692539890623" moduleId="de.marw.cmake4eclipse.mbs.settings">
 				<options/>
 				<defs>
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="Debug"/>
 					<def name="BUILD_SHARED_LIBS" type="BOOL" val="ON"/>
-					<def name="CODEGEN" type="BOOL" val="OFF"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
 					<def name="WITH_LLVM" type="BOOL" val="ON"/>
+					<def name="FW_BUILD" type="BOOL" val="ON"/>
 				</defs>
 			</storageModule>
 		</cconfiguration>
@@ -112,8 +112,8 @@
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="Debug"/>
 					<def name="USE_CWR_SYSTEMC" type="BOOL" val="ON"/>
 					<def name="BUILD_SHARED_LIBS" type="BOOL" val="ON"/>
-					<def name="CODEGEN" type="BOOL" val="OFF"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
+					<def name="FW_BUILD" type="BOOL" val="ON"/>
 				</defs>
 			</storageModule>
 		</cconfiguration>
@@ -169,9 +169,9 @@
 				<defs>
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="RelWithDebInfo"/>
 					<def name="BUILD_SHARED_LIBS" type="BOOL" val="ON"/>
-					<def name="CODEGEN" type="BOOL" val="OFF"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
 					<def name="WITH_TCC" type="BOOL" val="ON"/>
+					<def name="FW_BUILD" type="BOOL" val="ON"/>
 				</defs>
 			</storageModule>
 		</cconfiguration>

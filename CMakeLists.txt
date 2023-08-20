@@ -9,6 +9,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	# stand alone build settings
 	###########################################################################
 	set(CORE_NAME TGC_C CACHE STRING "The core to build the ISS for" )
+	option(FW_BUILD "Enable the automatic download and build of some firmware to run on the ISS" OFF)
 	
 	set(CMAKE_CXX_STANDARD 14)
 	set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -82,8 +83,8 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	set(CONAN_PACKAGE_OPTIONS fmt:header_only=True ${CONAN_BOOST_OPTIONS})
 
 	if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-	     list(APPEND CONAN_PACKAGE_LIST tcc/0.9.27)
-	     set(WITH_TCC ON)
+	    list(APPEND CONAN_PACKAGE_LIST tcc/0.9.27)
+		option(WITH_TCC "Build TCC backend" ON)
 	endif()
 
 	if(WITH_LLVM)
@@ -142,6 +143,20 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	if(USE_CWR_SYSTEMC)
 		include(SystemCPackage)
 	endif()
+	if(FW_BUILD)
+		include(FetchContent)
+		set(FETCHCONTENT_BASE_DIR ${CMAKE_CURRENT_BINARY_DIR}/..)
+		FetchContent_Declare(
+		  	riscvfw
+		  	GIT_REPOSITORY https://git.minres.com/VP/Firmwares.git
+		  	GIT_TAG        main
+		)
+		FetchContent_GetProperties(riscvfw)
+		if(NOT riscvfw_POPULATED)
+		  	FetchContent_Populate(riscvfw)
+		  	add_subdirectory(${riscvfw_SOURCE_DIR})
+		endif()
+	endif()
 endif()
 
 add_subdirectory(dbt-rise-core)
@@ -150,5 +165,6 @@ add_subdirectory(dbt-rise-tgc)
 if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbt-rise-plugins)
 	add_subdirectory(dbt-rise-plugins)
 endif()
+
 
 include(CTest)
