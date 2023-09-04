@@ -8,7 +8,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	###########################################################################
 	# stand alone build settings
 	###########################################################################
-	set(CORE_NAME TGC_C CACHE STRING "The core to build the ISS for" )
+	set(CORE_NAME TGC5C CACHE STRING "The core to build the ISS for" )
 	option(FW_BUILD "Enable the automatic download and build of some firmware to run on the ISS" OFF)
 	
 	set(CMAKE_CXX_STANDARD 14)
@@ -150,6 +150,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 		  	riscvfw
 		  	GIT_REPOSITORY https://git.minres.com/VP/Firmwares.git
 		  	GIT_TAG        main
+		  	UPDATE_DISCONNECTED FALSE
 		)
 		FetchContent_GetProperties(riscvfw)
 		if(NOT riscvfw_POPULATED)
