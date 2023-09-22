@@ -14,18 +14,20 @@ function print_help {
     echo "  -s <args>       simulator arguments"
     echo "  -h              print help"
     echo "  -v              increase verbosity"
+    echo "  -t             set build type"
 }
 SIM_ARGS="-v1"
 BACKENDS=("interp" "tcc" "llvm")
 DEBUG=0
 BUILD_TYPE=Debug
-while getopts 'b:s:hv' c
+while getopts 'b:s:hvt:' c
 do
   case $c in
     b) BACKENDS=($OPTARG);;
     s) SIM_ARGS=$OPTARG ;;
     h) print_help; exit 0 ;;
     v) DEBUG=1 ;;
+    t) BUILD_TYPE = $OPTARG;;
     ?)
       print_help >&2
       exit 1
@@ -77,7 +79,7 @@ for backend in "${BACKENDS[@]}"; do
         echo $failed_list | tr ' ' '\n'
     else
         echo
-        echo "($backend) $tcount tests passed." 
+        echo "($backend) All $tcount tests passed." 
         if [ $DEBUG -eq 1 ];then
         echo "List of executed tests:"
         for t in $test_list; do
