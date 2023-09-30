@@ -140,7 +140,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	find_package(spdlog)
 	find_package(lz4)
 	find_package(gsl-lite)
-	
+	find_package(yaml-cpp)
 	set(Boost_NO_BOOST_CMAKE ON) #  Don't do a find_package in config mode before searching for a regular boost install.
 	set(BOOST_ROOT ${CONAN_BOOST_ROOT})
 	find_package(Threads)
