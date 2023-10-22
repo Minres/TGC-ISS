@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scc/cmake)
 
-project(TGFS-ISS VERSION 1.0.0 LANGUAGES CXX)
+project(TGC-ISS VERSION 1.0.0 LANGUAGES CXX)
 
 set(WITH_LLVM FALSE CACHE BOOL "Build LLVM based backend")
-if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
+if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
 	###########################################################################
 	# stand alone build settings
 	###########################################################################
@@ -143,7 +143,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 	find_package(spdlog)
 	find_package(lz4)
 	find_package(gsl-lite)
-	
+	find_package(yaml-cpp)
 	set(Boost_NO_BOOST_CMAKE ON) #  Don't do a find_package in config mode before searching for a regular boost install.
 	set(BOOST_ROOT ${CONAN_BOOST_ROOT})
 	find_package(Threads)
@@ -159,13 +159,14 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGFS-ISS")
 		  	riscvfw
 		  	GIT_REPOSITORY https://git.minres.com/VP/Firmwares.git
 		  	GIT_TAG        main
-		  	UPDATE_DISCONNECTED FALSE
+		  	GIT_SHALLOW OFF
+		  	UPDATE_DISCONNECTED ON
 		)
 		FetchContent_GetProperties(riscvfw)
 		if(NOT riscvfw_POPULATED)
 		  	FetchContent_Populate(riscvfw)
 		endif()
-	  	add_subdirectory(${riscvfw_SOURCE_DIR})
+	 	add_subdirectory(${riscvfw_SOURCE_DIR})
 	endif()
 endif()
 
