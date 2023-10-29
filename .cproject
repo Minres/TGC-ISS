@@ -48,13 +48,14 @@
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
 				</defs>
 			</storageModule>
-			<storageModule buildDir="build/${ConfigName}" dirtyTs="1697917985878" moduleId="de.marw.cmake4eclipse.mbs.settings">
+			<storageModule buildDir="build/${ConfigName}" dirtyTs="1698593487517" moduleId="de.marw.cmake4eclipse.mbs.settings">
 				<options/>
 				<defs>
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="RelWithDebInfo"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
 					<def name="WITH_TCC" type="BOOL" val="ON"/>
 					<def name="FW_BUILD" type="BOOL" val="ON"/>
+					<def name="ENABLE_CLANG_TIDY" type="BOOL" val="ON"/>
 				</defs>
 			</storageModule>
 		</cconfiguration>
@@ -127,7 +128,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382" name="RelWithDebInfo" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="org.eclipse.cdt.build.core.emptycfg">
+				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382" name="RelWithDebInfo" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=" parent="org.eclipse.cdt.build.core.emptycfg">
 					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1009994445" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.1023431687" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
@@ -163,13 +164,14 @@
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
 				</defs>
 			</storageModule>
-			<storageModule buildDir="build/${ConfigName}" dirtyTs="1697917985878" moduleId="de.marw.cmake4eclipse.mbs.settings">
+			<storageModule buildDir="build/${ConfigName}" dirtyTs="1698593290265" moduleId="de.marw.cmake4eclipse.mbs.settings">
 				<options/>
 				<defs>
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="RelWithDebInfo"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
 					<def name="WITH_TCC" type="BOOL" val="ON"/>
 					<def name="FW_BUILD" type="BOOL" val="ON"/>
+					<def name="ENABLE_CLANG_TIDY" type="BOOL" val="ON"/>
 				</defs>
 			</storageModule>
 		</cconfiguration>
