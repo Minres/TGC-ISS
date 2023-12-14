@@ -17,7 +17,7 @@ function print_help {
     echo "  -t             set build type"
 }
 SIM_ARGS="-v1"
-BACKENDS=("interp" "tcc" "llvm")
+BACKENDS=("interp" "tcc" "llvm" "asmjit")
 DEBUG=0
 BUILD_TYPE=Debug
 while getopts 'b:s:hvt:' c
@@ -36,7 +36,7 @@ do
 done
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-ROOT_DIR=$DIR
+ROOT_DIR="$(dirname "$DIR")"
 
 RISCV_TEST=$ROOT_DIR/build/riscv-tests
 # prepare riscv-test binaries
