@@ -203,7 +203,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
 		set(FETCHCONTENT_BASE_DIR ${CMAKE_CURRENT_BINARY_DIR}/..)
 		FetchContent_Declare(
 		  	riscvfw
-		  	GIT_REPOSITORY https://git.minres.com/VP/Firmwares.git
+		  	GIT_REPOSITORY https://git.minres.com/Firmware/Firmwares.git
 		  	GIT_TAG        main
 		  	GIT_SHALLOW OFF
 		  	UPDATE_DISCONNECTED ON
