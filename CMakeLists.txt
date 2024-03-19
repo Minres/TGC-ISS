@@ -55,7 +55,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
 	
 	set(CONAN_BOOST_OPTIONS
 	boost:fPIC=True
-	boost:shared=${SHARED_FLAG}
+	boost:shared=False
 	boost:header_only=False 
 	boost:without_contract=True
 	boost:without_graph=True
@@ -203,7 +203,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
 		set(FETCHCONTENT_BASE_DIR ${CMAKE_CURRENT_BINARY_DIR}/..)
 		FetchContent_Declare(
 		  	riscvfw
-		  	GIT_REPOSITORY https://git.minres.com/VP/Firmwares.git
+		  	GIT_REPOSITORY https://git.minres.com/Firmware/Firmwares.git
 		  	GIT_TAG        main
 		  	GIT_SHALLOW OFF
 		  	UPDATE_DISCONNECTED ON
@@ -217,7 +217,14 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
 endif()
 
 add_subdirectory(dbt-rise-core)
-add_subdirectory(scc)
+if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS" AND NOT USE_CWR_SYSTEMC)
+	set(SCC_CMAKE_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/scc)
+	add_subdirectory(scc/src/common)
+	message("blah")
+else()
+	message("blub")
+	add_subdirectory(scc)
+endif()
 add_subdirectory(dbt-rise-tgc)
 if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbt-rise-plugins)
 	add_subdirectory(dbt-rise-plugins)

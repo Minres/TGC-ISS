@@ -51,7 +51,7 @@
 			<storageModule buildDir="build/${ConfigName}" dirtyTs="1698593487517" moduleId="de.marw.cmake4eclipse.mbs.settings">
 				<options/>
 				<defs>
-					<def name="CMAKE_BUILD_TYPE" type="STRING" val="RelWithDebInfo"/>
+					<def name="CMAKE_BUILD_TYPE" type="STRING" val="Debug"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
 					<def name="WITH_TCC" type="BOOL" val="ON"/>
 					<def name="FW_BUILD" type="BOOL" val="ON"/>
