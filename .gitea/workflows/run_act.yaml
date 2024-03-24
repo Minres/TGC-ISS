@@ -1,53 +1,62 @@
-name: Interp architectural test suite
+name: Run architectural test suite on backends
 on: push
 jobs:
-  Setup and build ISS:
+   build_job:
+    name: Build ISS and Setup TGC-COMPLIANCE
     runs-on: ubuntu-latest
     container:
       image: git.minres.com/tooling/riscof_sail:latest
     steps:
       - name: Check out repository code
         run: git clone --recursive -b ${{gitea.ref_name}} https://git.minres.com/TGFS/TGC-ISS.git
-
+      
       - name: Checkout TGC-COMPLIANCE
         run: |
           echo "${{ secrets.ACTRUNNER_PRIVATE_SSHKEY }}" > ssh_key
           chmod 600 ssh_key
           git clone --recursive -c core.sshCommand="/usr/bin/ssh -i  ssh_key -o StrictHostKeyChecking=accept-new" ssh://git@git.minres.com:2221/TGFS/TGC-COMPLIANCE.git
-
+      
       - name: Build tgc-sim executable
         run: |
           cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON
           cmake --build TGC-ISS/build -j24
-  Test interp backend:
+
+  interp_job:
+    name: Test interp backend
     runs-on: ubuntu-latest
+    needs:  build_job
     container:
       image: git.minres.com/tooling/riscof_sail:latest
     steps:
-      - name: run tests
-        needs: Setup and build ISS
-        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend interp
-  Test llvm backend:
+      - name: Run tests
+        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp
+
+  llvm_job:
+    name: Test llvm backend
     runs-on: ubuntu-latest
+    needs:  build_job
     container:
       image: git.minres.com/tooling/riscof_sail:latest
     steps:
-      - name: run tests
-        needs: Setup and build ISS
-        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend llvm
-  Test tcc backend:
+      - name: Run tests
+        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w llvm --dockerless --backend llvm
+
+  tcc_job:
+    name: Test tcc backend
     runs-on: ubuntu-latest
+    needs:  build_job
     container:
       image: git.minres.com/tooling/riscof_sail:latest
     steps:
-      - name: run tests
-        needs: Setup and build ISS
-        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend tcc
-  Test asmjit backend:
+      - name: Run tests
+        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w tcc --dockerless --backend tcc
+
+  asmjit_job:
+    name: Test asmjit backend
     runs-on: ubuntu-latest
+    needs:  build_job
     container:
       image: git.minres.com/tooling/riscof_sail:latest
     steps:
-      - name: run tests
-        needs: Setup and build ISS
-        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend asmjit
+      - name: Run tests
+        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w asmjit --dockerless --backend asmjit
