@@ -2,7 +2,7 @@ name: Run architectural test suite on backends
 on: push
 jobs:
   build_and_test_job:
-    name: Build ISS and Setup TGC-COMPLIANCE
+    name: Build ISS, Setup TGC-COMPLIANCE, Run tests on backends
     runs-on: ubuntu-latest
     container:
       image: git.minres.com/tooling/riscof_sail:latest
