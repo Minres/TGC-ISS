@@ -13,8 +13,7 @@ jobs:
         run: |
           echo "${{ secrets.ACTRUNNER_PRIVATE_SSHKEY }}" > ssh_key
           chmod 600 ssh_key
-          ssh-keyscan git.minres.com >> ~/.ssh/known_hosts
-          git clone --recursive -c core.sshCommand="/usr/bin/ssh -i  ssh_key" ssh://git@git.minres.com:2221/TGFS/TGC-COMPLIANCE.git
+          git clone --recursive -c core.sshCommand="/usr/bin/ssh -i  ssh_key -o StrictHostKeyChecking=accept-new" ssh://git@git.minres.com:2221/TGFS/TGC-COMPLIANCE.git
 
       - name: Build tgc-sim executable
         run: |
