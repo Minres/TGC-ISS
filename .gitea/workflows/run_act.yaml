@@ -1,7 +1,7 @@
 name: Run architectural test suite on backends
 on: push
 jobs:
-   build_job:
+  build_job:
     name: Build ISS and Setup TGC-COMPLIANCE
     runs-on: ubuntu-latest
     container:
