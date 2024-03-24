@@ -7,7 +7,7 @@ jobs:
       image: git.minres.com/tooling/riscof_sail:latest
     steps:
       - name: Check out repository code
-        run: git clone --recursive https://git.minres.com/TGFS/TGC-ISS.git
+        run: git clone --recursive -b ${{gitea.ref_name}} https://git.minres.com/TGFS/TGC-ISS.git
 
       - name: Checkout TGC-COMPLIANCE
         run: |
