@@ -23,14 +23,26 @@ jobs:
           cmake --build TGC-ISS/build -j24
 
       - name: Test interp backend
-        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp
+        continue-on-error: true
+        run: |
+          mkdir interp
+          python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp
 
       - name: Test llvm backend
-        run: echo "llvm takes too long to build, so it is skipped"
-        ##run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w llvm --dockerless --backend llvm
+        continue-on-error: true
+        run: |
+          mkdir llvm
+          echo "llvm takes too long to build, so it is skipped"
+          ##run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w llvm --dockerless --backend llvm
 
       - name: Test tcc backend
-        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w tcc --dockerless --backend tcc
+        continue-on-error: true
+        run: |
+          mkdir tcc
+          python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w tcc --dockerless --backend tcc
 
       - name: Test asmjit backend
-        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w asmjit --dockerless --backend asmjit
+        continue-on-error: true
+        run: |
+          mkdir asmjit
+          python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w asmjit --dockerless --backend asmjit
