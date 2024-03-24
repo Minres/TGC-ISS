@@ -1,0 +1,22 @@
+name: Interp architectural test suite
+on: push
+jobs:
+  test and publish job:
+    runs-on: ubuntu-latest
+    container:
+      image: git.minres.com/tooling/riscof_sail:latest
+    steps:
+
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Build tgc-sim executable
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=OFF -DWITH_TCC=OFF -DWITH_LLVM=OFF
+          cmake --build build -j24
+
+      - name: Checkout TGC-COMPLIANCE
+        run: git clone --recursive https://actrunner@git.minres.com/TGFS/TGC-COMPLIANCE.git
+      
+      - name: run tests
+        run: python TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim --dockerless --backend interp
