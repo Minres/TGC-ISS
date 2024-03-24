@@ -10,6 +10,8 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.ACTRUNNER_PRIVATE_SSHKEY }}" > ~/.ssh/id_rsa
+          echo $HOME
+          cat ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
       - name: Check out repository code
