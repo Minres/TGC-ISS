@@ -89,7 +89,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
         lz4/1.9.3 
         yaml-cpp/0.7.0 
         jsoncpp/1.9.5
-        zlib/1.2.13
+        zlib/1.2.12
     )
     set(CONAN_PACKAGE_OPTIONS fmt:header_only=True ${CONAN_BOOST_OPTIONS})
 
