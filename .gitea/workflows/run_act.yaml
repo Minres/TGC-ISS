@@ -20,7 +20,6 @@ jobs:
         run: |
           cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON
           cmake --build TGC-ISS/build -j24
-
   interp_job:
     name: Test interp backend
     runs-on: ubuntu-latest
@@ -30,7 +29,6 @@ jobs:
     steps:
       - name: Run tests
         run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp
-
   llvm_job:
     name: Test llvm backend
     runs-on: ubuntu-latest
@@ -40,7 +38,6 @@ jobs:
     steps:
       - name: Run tests
         run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w llvm --dockerless --backend llvm
-
   tcc_job:
     name: Test tcc backend
     runs-on: ubuntu-latest
@@ -50,7 +47,6 @@ jobs:
     steps:
       - name: Run tests
         run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w tcc --dockerless --backend tcc
-
   asmjit_job:
     name: Test asmjit backend
     runs-on: ubuntu-latest
