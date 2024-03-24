@@ -1,7 +1,7 @@
 name: Run architectural test suite on backends
 on: push
 jobs:
-  build_job:
+  build_and_test_job:
     name: Build ISS and Setup TGC-COMPLIANCE
     runs-on: ubuntu-latest
     container:
@@ -22,43 +22,15 @@ jobs:
           cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=OFF
           cmake --build TGC-ISS/build -j24
 
-  interp_job:
-    name: Test interp backend
-    runs-on: ubuntu-latest
-    needs:  build_job
-    container:
-      image: git.minres.com/tooling/riscof_sail:latest
-    steps:
-      - name: Run tests
+      - name: Test interp backend
         run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp
 
-  llvm_job:
-    name: Test llvm backend
-    runs-on: ubuntu-latest
-    needs:  build_job
-    container:
-      image: git.minres.com/tooling/riscof_sail:latest
-    steps:
-      - name: Run tests
+      - name: Test llvm backend
         run: echo "llvm takes too long to build, so it is skipped"
         ##run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w llvm --dockerless --backend llvm
 
-  tcc_job:
-    name: Test tcc backend
-    runs-on: ubuntu-latest
-    needs:  build_job
-    container:
-      image: git.minres.com/tooling/riscof_sail:latest
-    steps:
-      - name: Run tests
+      - name: Test tcc backend
         run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w tcc --dockerless --backend tcc
 
-  asmjit_job:
-    name: Test asmjit backend
-    runs-on: ubuntu-latest
-    needs:  build_job
-    container:
-      image: git.minres.com/tooling/riscof_sail:latest
-    steps:
-      - name: Run tests
+      - name: Test asmjit backend
         run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w asmjit --dockerless --backend asmjit
