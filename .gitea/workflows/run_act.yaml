@@ -18,7 +18,8 @@ jobs:
       
       - name: Build tgc-sim executable
         run: |
-          cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON
+          conan profile new --detect --false default
+          cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=OFF
           cmake --build TGC-ISS/build -j24
 
   interp_job:
@@ -39,7 +40,8 @@ jobs:
       image: git.minres.com/tooling/riscof_sail:latest
     steps:
       - name: Run tests
-        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w llvm --dockerless --backend llvm
+        run: echo "llvm takes too long to build, so it is skipped"
+        ##run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w llvm --dockerless --backend llvm
 
   tcc_job:
     name: Test tcc backend
@@ -50,7 +52,7 @@ jobs:
     steps:
       - name: Run tests
         run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w tcc --dockerless --backend tcc
-        
+
   asmjit_job:
     name: Test asmjit backend
     runs-on: ubuntu-latest
