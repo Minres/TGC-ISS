@@ -6,19 +6,13 @@ jobs:
     container:
       image: git.minres.com/tooling/riscof_sail:latest
     steps:
-      - name: create ssh auth
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.ACTRUNNER_PRIVATE_SSHKEY }}" > ~/.ssh/id_rsa
-          echo $HOME
-          cat ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
       - name: Check out repository code
         run: git clone --recursive https://git.minres.com/TGFS/TGC-ISS.git
 
       - name: Checkout TGC-COMPLIANCE
-        run: git clone --recursive ssh://git@git.minres.com:2221/TGFS/TGC-COMPLIANCE.git
+        run: |
+          echo "${{ secrets.ACTRUNNER_PRIVATE_SSHKEY }}" > ssh_key
+          git clone --recursive -c core.sshCommand="/usr/bin/ssh -i  ssh_key" ssh://git@git.minres.com:2221/TGFS/TGC-COMPLIANCE.git
 
       - name: Build tgc-sim executable
         run: |
