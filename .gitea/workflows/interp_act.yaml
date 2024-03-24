@@ -6,17 +6,22 @@ jobs:
     container:
       image: git.minres.com/tooling/riscof_sail:latest
     steps:
+      - name: create ssh auth
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ACTRUNNER_PRIVATE_SSHKEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
       - name: Check out repository code
-        run: git clone --recursive https://actrunner@git.minres.com/TGFS/TGC-ISS.git
+        run: git clone --recursive https://git.minres.com/TGFS/TGC-ISS.git
+
+      - name: Checkout TGC-COMPLIANCE
+        run: git clone --recursive ssh://git@git.minres.com:2221/TGFS/TGC-COMPLIANCE.git
 
       - name: Build tgc-sim executable
         run: |
           cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=OFF -DWITH_TCC=OFF -DWITH_LLVM=OFF
           cmake --build TGC-ISS/build -j24
 
-      - name: Checkout TGC-COMPLIANCE
-        run: git clone --recursive https://actrunner@git.minres.com/TGFS/TGC-COMPLIANCE.git
-      
       - name: run tests
         run: python TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim --dockerless --backend interp
