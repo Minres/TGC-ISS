@@ -20,18 +20,34 @@ jobs:
           cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON
           cmake --build TGC-ISS/build -j24
   Test interp backend:
-    - name: run tests
-      needs: Setup and build ISS
-      run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend interp
+    runs-on: ubuntu-latest
+    container:
+      image: git.minres.com/tooling/riscof_sail:latest
+    steps:
+      - name: run tests
+        needs: Setup and build ISS
+        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend interp
   Test llvm backend:
-    - name: run tests
-      needs: Setup and build ISS
-      run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend llvm
+    runs-on: ubuntu-latest
+    container:
+      image: git.minres.com/tooling/riscof_sail:latest
+    steps:
+      - name: run tests
+        needs: Setup and build ISS
+        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend llvm
   Test tcc backend:
-    - name: run tests
-      needs: Setup and build ISS
-      run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend tcc
+    runs-on: ubuntu-latest
+    container:
+      image: git.minres.com/tooling/riscof_sail:latest
+    steps:
+      - name: run tests
+        needs: Setup and build ISS
+        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend tcc
   Test asmjit backend:
-    - name: run tests
-      needs: Setup and build ISS
-      run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend asmjit
+    runs-on: ubuntu-latest
+    container:
+      image: git.minres.com/tooling/riscof_sail:latest
+    steps:
+      - name: run tests
+        needs: Setup and build ISS
+        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend asmjit
