@@ -21,4 +21,4 @@ jobs:
           cmake --build TGC-ISS/build -j24
 
       - name: run tests
-        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim --dockerless --backend interp
+        run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w . --dockerless --backend interp
