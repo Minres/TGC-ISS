@@ -10,6 +10,11 @@
 *.log
 *tcc_jit*.c
 *.disass
+*.dis
+*.objdump
+*.asm
+*.signature
+*.elf
 *.trc
 /*.core_desc
 /fasterDecoding/
