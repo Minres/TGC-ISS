@@ -18,7 +18,7 @@ jobs:
       
       - name: Build tgc-sim executable
         run: |
-          ##conan profile new --detect --false default
+          conan profile new --detect --force default
           cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=OFF
           cmake --build TGC-ISS/build -j24
 
