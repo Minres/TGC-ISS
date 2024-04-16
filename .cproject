@@ -192,7 +192,6 @@
 			<resource resourceType="PROJECT" workspacePath="/TGC-ISS"/>
 		</configuration>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule cmakelistsFolder="" moduleId="de.marw.cmake4eclipse.mbs.settings">
 		<targets>
@@ -213,5 +212,17 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382;cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382.;cdt.managedbuild.tool.gnu.c.compiler.base.1398015713;cdt.managedbuild.tool.gnu.c.compiler.input.1810687689">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
+		<buildTargets>
+			<target name="format" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>make</buildCommand>
+				<buildArguments>$&lt;cmake4eclipse_dyn&gt;</buildArguments>
+				<buildTarget>format</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>true</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+		</buildTargets>
 	</storageModule>
 </cproject>
