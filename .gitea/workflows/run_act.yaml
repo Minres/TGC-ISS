@@ -9,7 +9,7 @@ jobs:
       volumes:
         - act-runtime:/mnt/act-runtime
     env:
-      - CONAN_HOME=/mnt/act-runtime/conan/
+      CONAN_HOME=/mnt/act-runtime/conan/
     steps:
       - name: Check Environment
         run: env
