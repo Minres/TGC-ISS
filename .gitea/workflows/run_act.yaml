@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: git.minres.com/tooling/riscof_sail:latest
+      valid_volumes:
+        - act-runtime
       volumes:
         - act-runtime:/mnt/act-runtime
     continue-on-error: true
