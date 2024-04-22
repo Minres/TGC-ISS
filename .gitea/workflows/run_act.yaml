@@ -55,7 +55,17 @@ jobs:
         run: |
           mkdir asmjit
           python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w asmjit --dockerless --backend asmjit
-     
+
+      - name: Indicate Failure
+        run: | 
+        echo ${{ failure() }}
+        echo "Failure detected"
+        exit ${{ failure() }}
+      
       - name: Indicate Failure 2
         if:  ${{ failure() }}
-        run: exit 1
+        run: echo "Failure detected"
+        
+      - name: Indicate Failure 3
+        if:  steps.tcc.outcome != 'success'
+        run: echo "Failure detected"
