@@ -8,7 +8,11 @@ jobs:
       image: git.minres.com/tooling/riscof_sail:latest
       volumes:
         - act-runtime:/mnt/act-runtime
+    env:
+      - CONAN_HOME=/mnt/act-runtime/conan/
     steps:
+      - name: Check Conan Home
+        run: echo $CONAN_HOME
       - name: Check out repository code
         run: git clone --recursive -b ${{gitea.ref_name}} https://git.minres.com/TGFS/TGC-ISS.git
       
