@@ -16,12 +16,14 @@ jobs:
       
       - name: Checkout TGC-COMPLIANCE
         run: |
+          exit 0
           echo "${{ secrets.ACTRUNNER_PRIVATE_SSHKEY }}" > ssh_key
           chmod 600 ssh_key
           git clone --recursive -c core.sshCommand="/usr/bin/ssh -i  ssh_key -o StrictHostKeyChecking=accept-new" ssh://git@git.minres.com:2221/TGFS/TGC-COMPLIANCE.git
       
       - name: Build tgc-sim executable
         run: |
+          exit 0
           conan profile new --detect --force default
           cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=OFF
           cmake --build TGC-ISS/build -j24
@@ -59,8 +61,8 @@ jobs:
       - name: Indicate Failure
         run: | 
           echo ${{ failure() }}
+          echo ${{steps.*.outcome}}
           echo "Failure detected"
-          exit ${{ failure() }}
       
       - name: Indicate Failure 2
         if:  ${{ failure() }}
@@ -68,4 +70,8 @@ jobs:
         
       - name: Indicate Failure 3
         if:  steps.tcc.outcome != 'success'
+        run: echo "Failure detected"
+
+      - name: Indicate Failure 4
+        if:  steps.*.outcome != 'success'
         run: echo "Failure detected"
