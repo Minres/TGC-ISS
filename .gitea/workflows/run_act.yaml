@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: git.minres.com/tooling/riscof_sail:latest
+      volumes:
+        - act-runtime:/mnt/act-runtime
     steps:
       - name: Check out repository code
         run: git clone --recursive -b ${{gitea.ref_name}} https://git.minres.com/TGFS/TGC-ISS.git
