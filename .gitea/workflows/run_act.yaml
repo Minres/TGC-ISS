@@ -11,8 +11,8 @@ jobs:
     env:
       - CONAN_HOME=/mnt/act-runtime/conan/
     steps:
-      - name: Check Conan Home
-        run: echo $CONAN_HOME
+      - name: Check Environment
+        run: env
       - name: Check out repository code
         run: git clone --recursive -b ${{gitea.ref_name}} https://git.minres.com/TGFS/TGC-ISS.git
       
