@@ -9,7 +9,7 @@ jobs:
       volumes:
         - act-runtime:/mnt/act-runtime
     steps:
-      - name: Check out repository code
+      - name: Checkout repository code
         run: git clone --recursive -b ${{gitea.ref_name}} https://git.minres.com/TGFS/TGC-ISS.git
       
       - name: Checkout TGC-COMPLIANCE
@@ -20,7 +20,7 @@ jobs:
       
       - name: Build tgc-sim executable
         run: |
-          export CONAN_HOME=/mnt/act-runtime/conan/
+          export CONAN_USER_HOME=/mnt/act-runtime/
           conan profile new --detect --force default
           cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=OFF
           cmake --build TGC-ISS/build -j24
@@ -36,6 +36,7 @@ jobs:
         run: |
           mkdir llvm
           echo "llvm takes too long to build, so it is skipped"
+          run: exit 1
           ##run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w llvm --dockerless --backend llvm
 
       - name: Test tcc backend
