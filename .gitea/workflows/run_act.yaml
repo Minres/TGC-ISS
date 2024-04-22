@@ -10,7 +10,6 @@ jobs:
         - act-runtime
       volumes:
         - act-runtime:/mnt/act-runtime
-    continue-on-error: true
     steps:
       - name: Checkout repository code
         run: git clone --recursive -b ${{gitea.ref_name}} https://git.minres.com/TGFS/TGC-ISS.git
@@ -23,17 +22,18 @@ jobs:
       
       - name: Build tgc-sim executable
         run: |
-          export CONAN_USER_HOME=/mnt/act-runtime/
           conan profile new --detect --force default
           cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=OFF
           cmake --build TGC-ISS/build -j24
 
       - name: Test interp backend
+        continue-on-error: true
         run: |
           mkdir interp
           python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp
 
       - name: Test llvm backend
+        continue-on-error: true
         run: |
           mkdir llvm
           echo "llvm takes too long to build, so it is skipped"
@@ -41,11 +41,16 @@ jobs:
           ##run: python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w llvm --dockerless --backend llvm
 
       - name: Test tcc backend
+        continue-on-error: true
         run: |
           mkdir tcc
           python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w tcc --dockerless --backend tcc
 
       - name: Test asmjit backend
+        continue-on-error: true
         run: |
           mkdir asmjit
           python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w asmjit --dockerless --backend asmjit
+      - name: Indicate Failure
+        if: ${{ failure() }}
+        run: exit 1
