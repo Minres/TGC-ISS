@@ -59,6 +59,6 @@ jobs:
       - name: Indicate Failure
         run: exit ${{ failure() }}
       
-       - name: Indicate Failure 2
+      - name: Indicate Failure 2
         if:  ${{ failure() }}
         run: echo "Failure detected"
