@@ -58,9 +58,9 @@ jobs:
 
       - name: Indicate Failure
         run: | 
-        echo ${{ failure() }}
-        echo "Failure detected"
-        exit ${{ failure() }}
+          echo ${{ failure() }}
+          echo "Failure detected"
+          exit ${{ failure() }}
       
       - name: Indicate Failure 2
         if:  ${{ failure() }}
