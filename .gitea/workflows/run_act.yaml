@@ -63,11 +63,7 @@ jobs:
           echo ${{ failure() }}
           echo ${{steps.*.outcome}}
           echo "Failure detected"
-      
-      - name: Indicate Failure 2
-        if:  ${{ failure() }}
-        run: echo "Failure detected"
-        
+            
       - name: Indicate Failure 3
         if:  steps.tcc.outcome != 'success'
         run: echo "Failure detected"
