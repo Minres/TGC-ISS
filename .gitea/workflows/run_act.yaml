@@ -10,6 +10,7 @@ jobs:
         - act-runtime:/mnt/act-runtime
     continue-on-error: true
     steps:
+      - run: ls /mnt/act-runtime
       - name: Checkout repository code
         run: git clone --recursive -b ${{gitea.ref_name}} https://git.minres.com/TGFS/TGC-ISS.git
       
