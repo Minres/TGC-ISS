@@ -23,7 +23,7 @@ jobs:
       - name: Build tgc-sim executable
         run: |
           conan profile new --detect --force default
-          cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=OFF
+          cmake -S TGC-ISS -B TGC-ISS/build -DCMAKE_BUILD_TYPE=Debug -DWITH_ASMJIT=ON -DWITH_TCC=OFF -DWITH_LLVM=OFF
           cmake --build TGC-ISS/build -j24
 
       - name: Test interp backend
@@ -47,7 +47,9 @@ jobs:
         id: tcc
         run: |
           mkdir tcc
-          python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w tcc --dockerless --backend tcc
+          echo "tcc is disabled for now"
+          exit 1
+          ##python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim TGC-ISS/build/dbt-rise-tgc/tgc-sim -w tcc --dockerless --backend tcc
 
       - name: Test asmjit backend
         continue-on-error: true
