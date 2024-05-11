@@ -93,9 +93,8 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
     )
     set(CONAN_PACKAGE_OPTIONS fmt:header_only=True ${CONAN_BOOST_OPTIONS})
 
-    if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux" AND WITH_TCC)
         list(APPEND CONAN_PACKAGE_LIST tcc/0.9.27)
-        option(WITH_TCC "Build TCC backend" ON)
     endif()
 
     if(WITH_LLVM)
