@@ -42,8 +42,10 @@ pipeline {
         stage("Test backends"){
             parallel {
                 stage("Test interp") {
-                    sh "mkdir interp"
-                    sh "python3 run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp"
+                    steps {
+                        sh "mkdir interp"
+                        sh "python3 run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp"
+                    }
                 }
             }
         }
