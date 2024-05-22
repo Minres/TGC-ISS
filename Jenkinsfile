@@ -21,17 +21,17 @@ pipeline {
     agent {
         docker { 
                 image 'git.minres.com/tooling/riscof_sail:latest'
+                environment {
+                    CONAN_USER_HOME = '/var/jenkins_home/workspace/riscof_sail'
+                }
             } 
     }
 
     stages {
         stage("build TGC-ISS"){
             steps {
-                sh '''
-                conan profile new --detect --force default
-                cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=OFF -DWITH_TCC=OFF -DWITH_LLVM=OFF
-                cmake --build build -j
-                '''
+                sh 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=OFF -DWITH_TCC=OFF -DWITH_LLVM=OFF'
+                sh 'cmake --build build -j'
             }
         }
         stage("Checkout TGC-Compliance"){
