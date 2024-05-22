@@ -15,28 +15,31 @@ void checkout_project(String repoUrl, String branch = 'develop') {
     ])
 }
 
-
-
 pipeline {
     agent {
         docker { 
                 image 'git.minres.com/tooling/riscof_sail:latest'
-                environment {
-                    CONAN_USER_HOME = '/var/jenkins_home/workspace/riscof_sail'
-                }
+                args ' -e CONAN_USER_HOME=/var/jenkins_home/workspace/riscof_sail'
             } 
     }
-
     stages {
+        stage("Checkout TGC-ISS"){
+            steps {
+                checkout_project("https://git.minres.com/TGFS/TGC-ISS.git", "develop")
+            }
+        }
         stage("build TGC-ISS"){
             steps {
-                sh 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=OFF -DWITH_TCC=OFF -DWITH_LLVM=OFF'
+                sh 'conan profile new default --detect --force '
+                sh 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=ON -DWITH_TCC=OFF -DWITH_LLVM=ON'
                 sh 'cmake --build build -j'
             }
         }
         stage("Checkout TGC-Compliance"){
             steps {
-                checkout_project("https://git.minres.com/TGFS/TGC-COMPLIANCE.git", "master")
+                dir("TGC-COMPLIANCE"){
+                    checkout_project("https://git.minres.com/TGFS/TGC-COMPLIANCE.git", "master")
+                }
             }
         }
         stage("Test backends"){
@@ -44,11 +47,22 @@ pipeline {
                 stage("Test interp") {
                     steps {
                         sh "mkdir interp"
-                        sh "python3 run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp"
+                        sh "python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp"
+                    }
+                }
+                stage("Test asmjit") {
+                    steps {
+                        sh "mkdir asmjit"
+                        sh "python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w asmjit --dockerless --backend asmjit"
+                    }
+                }
+                stage("Test llvm") {
+                    steps {
+                        sh "mkdir llvm"
+                        sh "python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w llvm --dockerless --backend llvm"
                     }
                 }
             }
-        }
-        
+        } 
     }
 }
