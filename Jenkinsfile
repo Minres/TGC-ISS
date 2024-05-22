@@ -34,6 +34,19 @@ pipeline {
                 '''
             }
         }
+        stage("Checkout TGC-Compliance"){
+            steps {
+                checkout_project("https://git.minres.com/TGFS/TGC-COMPLIANCE.git", "master")
+            }
+        }
+        stage("Test backends"){
+            parallel {
+                stage("Test interp") {
+                    sh "mkdir interp"
+                    sh "python3 run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp"
+                }
+            }
+        }
         
     }
 }
