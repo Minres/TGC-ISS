@@ -25,11 +25,13 @@ pipeline {
     }
 
     stages {
-        stage("Info"){
+        stage("build TGC-ISS"){
             steps {
-                sh 'pwd'
-                sh 'ls -la'
-                sh 'ls -la ..'
+                sh '''
+                conan profile new --detect --force default
+                cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=OFF -DWITH_TCC=OFF -DWITH_LLVM=OFF
+                cmake --build build -j
+                '''
             }
         }
         
