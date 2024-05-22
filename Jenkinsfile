@@ -31,7 +31,7 @@ pipeline {
         stage("build TGC-ISS"){
             steps {
                 sh 'conan profile new default --detect --force '
-                sh 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=ON -DWITH_TCC=OFF -DWITH_LLVM=ON'
+                sh 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON'
                 sh 'cmake --build build -j'
             }
         }
