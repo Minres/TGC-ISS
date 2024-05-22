@@ -25,13 +25,7 @@ pipeline {
     }
 
     stages {
-        stage("Checkout Repositories"){
-            steps {
-                checkout_project("https://git.minres.com/TGFS/TGC-ISS.git")
-                checkout_project("https://git.minres.com/TGFS/TGC-COMPLIANCE.git", "master")
-            }
-        }
-        stage("Build TGC-ISS"){
+        stage("Info"){
             steps {
                 sh 'pwd'
                 sh 'ls -la'
