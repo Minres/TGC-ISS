@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.20)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scc/cmake)
 
 project(TGC-ISS VERSION 1.0.0 LANGUAGES CXX)
@@ -12,7 +12,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
     option(FW_BUILD "Enable the automatic download and build of some firmware to run on the ISS" OFF)
     option(ENABLE_SANITIZER "Enable address sanitizer" OFF)
     option(ENABLE_CLANG_TIDY "Add clang-tidy and clang-format automatically to builds" OFF)
-    option(WITH_TCC "Build TCC backend" ON)
+    option(WITH_TCC "Build TCC backend" OFF)
     option(WITH_LLVM "Build LLVM backend" OFF)
     option(WITH_ASMJIT "Build ASMJIT backend" ON)
     
