@@ -9,12 +9,12 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
     # stand alone build settings
     ###########################################################################
     set(CORE_NAME TGC5C CACHE STRING "The core to build the ISS for" )
-    option(FW_BUILD "Enable the automatic download and build of some firmware to run on the ISS" OFF)
+    option(BUILD_COMMON_FW "Enable the automatic download and build of some firmware to run on the ISS" OFF)
     option(ENABLE_SANITIZER "Enable address sanitizer" OFF)
     option(ENABLE_CLANG_TIDY "Add clang-tidy and clang-format automatically to builds" OFF)
     option(WITH_TCC "Build TCC backend" OFF)
     option(WITH_LLVM "Build LLVM backend" OFF)
-    option(WITH_ASMJIT "Build ASMJIT backend" ON)
+    option(WITH_ASMJIT "Build ASMJIT backend" OFF)
     
     set(CMAKE_CXX_STANDARD 14)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)

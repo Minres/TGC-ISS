@@ -48,15 +48,14 @@
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
 				</defs>
 			</storageModule>
-			<storageModule buildDir="build/${ConfigName}" dirtyTs="1715591188169" moduleId="de.marw.cmake4eclipse.mbs.settings">
+			<storageModule buildDir="build/${ConfigName}" dirtyTs="1698593487517" moduleId="de.marw.cmake4eclipse.mbs.settings">
 				<options/>
 				<defs>
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="Debug"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
 					<def name="WITH_TCC" type="BOOL" val="ON"/>
-					<def name="FW_BUILD" type="BOOL" val="ON"/>
+					<def name="BUILD_COMMON_FW" type="BOOL" val="ON"/>
 					<def name="ENABLE_CLANG_TIDY" type="BOOL" val="ON"/>
-					<def name="WITH_ASMJIT" type="BOOL" val="ON"/>
 				</defs>
 			</storageModule>
 		</cconfiguration>
