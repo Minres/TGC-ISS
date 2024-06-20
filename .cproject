@@ -14,9 +14,9 @@
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 				<configuration buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.1336041151" name="Debug" optionalBuildProperties="" parent="org.eclipse.cdt.build.core.emptycfg">
 					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.1336041151.1615713914" name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1297474963" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1297474963" name="Linux GCC" nonInternalBuilderId="cmake4eclipse.mbs.builder" superClass="cdt.managedbuild.toolchain.gnu.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.1141103737" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
-							<builder buildPath="/TGC-ISS/_build/Debug" id="cmake4eclipse.mbs.builder.1823257054" parallelBuildOn="false" superClass="cmake4eclipse.mbs.builder"/>
+							<builder buildPath="/TGC-ISS/build/Debug" id="cmake4eclipse.mbs.builder.1295402556" keepEnvironmentInBuildfile="false" name="CMake Builder" superClass="cmake4eclipse.mbs.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.740869785" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1934077203" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.preprocessor.def.1599133325" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
@@ -48,14 +48,14 @@
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
 				</defs>
 			</storageModule>
-			<storageModule dirtyTs="1681454842738" moduleId="de.marw.cmake4eclipse.mbs.settings">
+			<storageModule buildDir="build/${ConfigName}" dirtyTs="1698593487517" moduleId="de.marw.cmake4eclipse.mbs.settings">
 				<options/>
 				<defs>
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="Debug"/>
-					<def name="USE_CWR_SYSTEM" type="BOOL" val="ON"/>
-					<def name="BUILD_SHARED_LIBS" type="BOOL" val="ON"/>
-					<def name="CODEGEN" type="BOOL" val="OFF"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
+					<def name="WITH_TCC" type="BOOL" val="ON"/>
+					<def name="BUILD_COMMON_FW" type="BOOL" val="ON"/>
+					<def name="ENABLE_CLANG_TIDY" type="BOOL" val="ON"/>
 				</defs>
 			</storageModule>
 		</cconfiguration>
@@ -112,8 +112,66 @@
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="Debug"/>
 					<def name="USE_CWR_SYSTEMC" type="BOOL" val="ON"/>
 					<def name="BUILD_SHARED_LIBS" type="BOOL" val="ON"/>
-					<def name="CODEGEN" type="BOOL" val="OFF"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
+					<def name="FW_BUILD" type="BOOL" val="ON"/>
+				</defs>
+			</storageModule>
+		</cconfiguration>
+		<cconfiguration id="cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382" moduleId="org.eclipse.cdt.core.settings" name="RelWithDebInfo">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382" name="RelWithDebInfo" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1009994445" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.1023431687" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
+							<builder buildPath="/TGC-ISS/_build/Debug" id="cmake4eclipse.mbs.builder.87414385" keepEnvironmentInBuildfile="false" name="CMake Builder" parallelBuildOn="true" parallelizationNumber="unlimited" superClass="cmake4eclipse.mbs.builder"/>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.40272694" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.288344887" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.preprocessor.def.1881910565" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="CWR_SYSTEMC=1"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1745748578" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1398015713" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1810687689" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.120562679" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.1158166201" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.120238241" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.1253632883" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.502601048" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule buildDir="build/${ConfigName}" moduleId="de.marw.cdt.cmake.core.settings">
+				<options/>
+				<defs>
+					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
+				</defs>
+			</storageModule>
+			<storageModule buildDir="build/${ConfigName}" dirtyTs="1698593290265" moduleId="de.marw.cmake4eclipse.mbs.settings">
+				<options/>
+				<defs>
+					<def name="CMAKE_BUILD_TYPE" type="STRING" val="RelWithDebInfo"/>
+					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
+					<def name="WITH_TCC" type="BOOL" val="ON"/>
+					<def name="FW_BUILD" type="BOOL" val="ON"/>
+					<def name="ENABLE_CLANG_TIDY" type="BOOL" val="ON"/>
 				</defs>
 			</storageModule>
 		</cconfiguration>
@@ -126,6 +184,7 @@
 		<configuration configurationName="Debug-PA">
 			<resource resourceType="PROJECT" workspacePath="/TGC-ISS"/>
 		</configuration>
+		<configuration configurationName="RelWithDebInfo"/>
 		<configuration configurationName="Default">
 			<resource resourceType="PROJECT" workspacePath="/TGC-ISS"/>
 		</configuration>
@@ -133,15 +192,37 @@
 			<resource resourceType="PROJECT" workspacePath="/TGC-ISS"/>
 		</configuration>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule cmakelistsFolder="" moduleId="de.marw.cmake4eclipse.mbs.settings">
+		<targets>
+			<target name=""/>
+		</targets>
+	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.base.1336041151;cdt.managedbuild.toolchain.gnu.base.1336041151.1615713914;cdt.managedbuild.tool.gnu.c.compiler.base.1699395860;cdt.managedbuild.tool.gnu.c.compiler.input.1583122935">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382;cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382.;cdt.managedbuild.tool.gnu.cpp.compiler.base.288344887;cdt.managedbuild.tool.gnu.cpp.compiler.input.1745748578">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.base.1336041151;cdt.managedbuild.toolchain.gnu.base.1336041151.1615713914;cdt.managedbuild.tool.gnu.cpp.compiler.base.1934077203;cdt.managedbuild.tool.gnu.cpp.compiler.input.17118862">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382;cdt.managedbuild.toolchain.gnu.base.1336041151.1605951382.;cdt.managedbuild.tool.gnu.c.compiler.base.1398015713;cdt.managedbuild.tool.gnu.c.compiler.input.1810687689">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
+		<buildTargets>
+			<target name="format" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>make</buildCommand>
+				<buildArguments>$&lt;cmake4eclipse_dyn&gt;</buildArguments>
+				<buildTarget>format</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>true</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+		</buildTargets>
+	</storageModule>
 </cproject>
