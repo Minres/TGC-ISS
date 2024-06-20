@@ -14,7 +14,7 @@ This ISS is based in DBT-RISE, a library to allow rapid ISS creation.
   
   ```
 
-  pip3 install --user conan==1.59
+  pip3 install --user 'conan<2.0'
 
   ```
   
@@ -31,10 +31,11 @@ This ISS is based in DBT-RISE, a library to allow rapid ISS creation.
   
   Using conan for the first time you need to create a profile:
   
-  ```
-  
-  conan profile create default --detect
-  
+  ```sh  
+
+  conan profile new --detect default
+  conan remote add gitea https://git.minres.com/api/packages/Tooling/conan
+
   ```
   
 * checkout source from git
