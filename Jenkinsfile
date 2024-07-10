@@ -47,25 +47,25 @@ pipeline {
                 stage("Test interp") {
                     steps {
                         sh "mkdir interp"
-                        sh "python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w interp --dockerless --backend interp"
+                        sh "python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w interp --local --backend interp"
                     }
                 }
                 stage("Test tcc") {
                     steps {
                         sh "mkdir tcc"
-                        sh "python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w tcc --dockerless --backend tcc"
+                        sh "python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w tcc --local --backend tcc"
                     }
                 }
                 stage("Test asmjit") {
                     steps {
                         sh "mkdir asmjit"
-                        sh "python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w asmjit --dockerless --backend asmjit"
+                        sh "python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w asmjit --local --backend asmjit"
                     }
                 }
                 stage("Test llvm") {
                     steps {
                         sh "mkdir llvm"
-                        sh "python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w llvm --dockerless --backend llvm"
+                        sh "python3 TGC-COMPLIANCE/run_act.py -core TGC5C -sim build/dbt-rise-tgc/tgc-sim -w llvm --local --backend llvm"
                     }
                 }
             }
