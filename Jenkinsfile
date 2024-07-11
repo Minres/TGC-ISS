@@ -18,23 +18,27 @@ void checkout_project(String repoUrl, String branch = 'develop') {
 pipeline {
     agent any
     stages {
-        stage("Checkout TGC-Compliance and TGC-GEN"){
-            steps {
-                dir("TGC-COMPLIANCE"){
-                    checkout_project("https://git.minres.com/TGFS/TGC-COMPLIANCE.git", "master")
-                }
-                dir("TGC-GEN"){
-                    checkout_project("https://git.minres.com/TGFS/TGC-GEN.git", "develop")
-                }
-            }
-        }
-        stage("Generate cores and build TGC-ISS"){
+        stage("Checkout and build"){
             agent {docker { image 'ubuntu-riscv' }}
-            steps {
-                sh 'TGC-GEN/scripts/generate_all.sh -o dbt-rise-tgc'
-                sh 'conan profile new default --detect --force'
-                sh 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON'
-                sh 'cmake --build build -j'
+            stages{
+                stage("Checkout TGC-Compliance and TGC-GEN"){
+                    steps {
+                        dir("TGC-COMPLIANCE"){
+                            checkout_project("https://git.minres.com/TGFS/TGC-COMPLIANCE.git", "master")
+                        }
+                        dir("TGC-GEN"){
+                            checkout_project("https://git.minres.com/TGFS/TGC-GEN.git", "develop")
+                        }
+                    }
+                }
+                stage("Generate cores and build TGC-ISS"){
+                    steps {
+                        sh 'TGC-GEN/scripts/generate_all.sh -o dbt-rise-tgc'
+                        sh 'conan profile new default --detect --force'
+                        sh 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON'
+                        sh 'cmake --build build -j'
+                    }
+                }
             }
         }
         stage("Run test suite") {
