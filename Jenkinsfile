@@ -35,7 +35,7 @@ pipeline {
         }
         stage("generate cores and build TGC-ISS"){
             steps {
-                sh 'TGC-GEN/scripts/generate_all -o dbt-rise-tgc'
+                sh 'TGC-GEN/scripts/generate_all.sh -o dbt-rise-tgc'
                 sh 'conan profile new default --detect --force'
                 sh 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON'
                 sh 'cmake --build build -j'
