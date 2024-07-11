@@ -33,9 +33,14 @@ pipeline {
                 }
             }
         }
-        stage("generate cores and build TGC-ISS"){
+        stage("generate cores "){
+            agent {docker { image 'ubuntu-riscv' } }
             steps {
                 sh 'TGC-GEN/scripts/generate_all.sh -o dbt-rise-tgc'
+            }
+        }
+        stage("build TGC-ISS"){
+            steps {
                 sh 'conan profile new default --detect --force'
                 sh 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON'
                 sh 'cmake --build build -j'
