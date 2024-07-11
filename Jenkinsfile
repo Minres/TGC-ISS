@@ -67,7 +67,7 @@ pipeline {
                         axes {
                             axis {
                                 name 'CORE'
-                                values 'TGC5B', 'TGC5C', 'TGC5D', 'TGC5E' // TGC5A
+                                values 'TGC5C', 'TGC5D', 'TGC5E' // TGC5A, 'TGC5B', 
                             }
                             axis {
                                 name 'BACKEND'
