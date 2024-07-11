@@ -77,7 +77,7 @@ pipeline {
                         stages {
                             stage('Run riscof') {
                                 steps {
-                                    sh "mkdir ${BACKEND}"
+                                    sh "mkdir -p ${BACKEND}"
                                     sh "python3 TGC-COMPLIANCE/run_act.py -core ${CORE} -sim build/dbt-rise-tgc/tgc-sim -w ${BACKEND} --local --backend ${BACKEND}"
                                 }
                             }
@@ -99,7 +99,7 @@ pipeline {
                         stages {
                             stage('Run riscof') {
                                 steps {
-                                    sh "mkdir ${BACKEND}"
+                                    sh "mkdir -p ${BACKEND}"
                                     sh "python3 TGC-COMPLIANCE/run_act.py -core ${CORE} -sim build/dbt-rise-tgc/tgc-sim -w ${BACKEND} --local --backend ${BACKEND}"
                                 }
                             }
