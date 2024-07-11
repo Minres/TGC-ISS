@@ -16,6 +16,7 @@ void checkout_project(String repoUrl, String branch = 'develop') {
 }
 
 pipeline {
+    agent any
     stages {
         stage("Checkout TGC-Compliance and TGC-GEN"){
             steps {
@@ -27,7 +28,7 @@ pipeline {
                 }
             }
         }
-        stage("generate cores and build TGC-ISS"){
+        stage("Generate cores and build TGC-ISS"){
             agent {docker { image 'ubuntu-riscv' }}
             steps {
                 sh 'TGC-GEN/scripts/generate_all.sh -o dbt-rise-tgc'
@@ -36,7 +37,7 @@ pipeline {
                 sh 'cmake --build build -j'
             }
         }
-        stage{
+        stage("Run test suite") {
             agent {
                 docker { 
                         image 'git.minres.com/tooling/riscof_sail:latest'
