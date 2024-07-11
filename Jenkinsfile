@@ -23,6 +23,7 @@ pipeline {
             stages{
                 stage("Checkout TGC-Compliance and TGC-GEN"){
                     steps {
+                        sh 'rm -rf * .??* '
                         checkout_project("https://git.minres.com/TGFS/TGC-ISS.git", "develop")
                         dir("TGC-COMPLIANCE"){
                             checkout_project("https://git.minres.com/TGFS/TGC-COMPLIANCE.git", "master")
