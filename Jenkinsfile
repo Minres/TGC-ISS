@@ -6,7 +6,7 @@ void checkout_project(String repoUrl, String branch = 'develop') {
         ],
         extensions: [
             [$class: 'CleanBeforeCheckout'],
-            [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]
+            [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false, shallow: true]
         ],
         submoduleCfg: [],
         userRemoteConfigs: [
@@ -23,6 +23,7 @@ pipeline {
             stages{
                 stage("Checkout TGC-Compliance and TGC-GEN"){
                     steps {
+                        checkout_project("https://git.minres.com/TGFS/TGC-ISS.git", "develop")
                         dir("TGC-COMPLIANCE"){
                             checkout_project("https://git.minres.com/TGFS/TGC-COMPLIANCE.git", "master")
                         }
