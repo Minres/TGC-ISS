@@ -33,11 +33,13 @@ pipeline {
                 }
                 stage("Generate cores and build TGC-ISS"){
                     steps {
-                        sh 'for core in TGC5A TGC5B TGC5D TGC5E TGC6B TGC6C TGC6D TGC6E; do
+                        sh '''
+                            for core in TGC5A TGC5B TGC5D TGC5E TGC6B TGC6C TGC6D TGC6E; do
                                 for backend in interp llvm tcc asmjit; do 
                                     TGC-GEN/scripts/generate_iss.sh -o dbt-rise-tgc/ -c $core -b ${backend} TGC-GEN/CoreDSL/${core}.core_desc
                                 done
-                            done'
+                            done
+                            '''
                         sh 'conan profile new default --detect --force'
                         sh 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON'
                         sh 'cmake --build build -j'
