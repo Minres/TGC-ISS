@@ -1,5 +1,4 @@
 /build/
-/Debug/
 .settings
 /.venv*
 /Debug-PA/
