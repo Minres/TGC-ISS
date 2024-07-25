@@ -131,6 +131,9 @@ def main(args: argparse.Namespace) -> None:
 
 
 if __name__ == "__main__":
+    # sys.exit(
+    #    "This script needs to be adapted, it assumed to be in a directory named 'Debug'"
+    # )
     parser = argparse.ArgumentParser(
         description="Process an ELF file with a specified backend. Generates register traces for interp and the specified backend"
     )
@@ -140,8 +143,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--backend",
         type=str,
-        default="amsjit",
-        help="The backend to be used. Default is amsjit.",
+        default="asmjit",
+        help="The backend to be used. Default is asmjit.",
         required=False,
     )
     parser.add_argument(
