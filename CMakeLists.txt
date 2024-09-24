@@ -16,7 +16,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
     option(WITH_LLVM "Build LLVM backend" OFF)
     option(WITH_ASMJIT "Build ASMJIT backend" OFF)
     
-    set(CMAKE_CXX_STANDARD 14)
+    set(CMAKE_CXX_STANDARD 17)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     set(CMAKE_CXX_EXTENSIONS OFF)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -85,7 +85,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
         spdlog/1.9.2
         boost/1.75.0 
         gsl-lite/0.37.0 
-        elfio/3.8 
+        elfio/3.12 
         lz4/1.9.3 
         yaml-cpp/0.7.0 
         jsoncpp/1.9.5
