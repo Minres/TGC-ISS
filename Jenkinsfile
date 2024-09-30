@@ -36,12 +36,12 @@ pipeline {
                 stage("Generate cores and build TGC-ISS"){
                     steps {
                         sh '''
-                            for core in TGC5A TGC5B TGC5D TGC5E TGC5F; do 
+                            for core in TGC5A TGC5B TGC5D TGC5E TGC5F RV32GC; do 
                                 for backend in interp llvm tcc asmjit; do 
                                     TGC-GEN/scripts/generate_iss.sh -o dbt-rise-tgc/ -c $core -b ${backend} TGC-GEN/CoreDSL/${core}.core_desc
                                 done
                             done
-                            for core in TGC6B TGC6C TGC6D TGC6E; do
+                            for core in TGC6B TGC6C TGC6D TGC6E RV64GC; do
                                 for backend in interp llvm asmjit; do 
                                     TGC-GEN/scripts/generate_iss.sh -o dbt-rise-tgc/ -c $core -b ${backend} TGC-GEN/CoreDSL/${core}.core_desc
                                 done
@@ -68,7 +68,7 @@ pipeline {
                         axes {
                             axis {
                                 name 'CORE'
-                                values 'TGC5A', 'TGC5B','TGC5C', 'TGC5D', 'TGC5E' ,'TGC5F'  
+                                values 'TGC5A', 'TGC5B', 'TGC5C', 'TGC5D', 'TGC5E', 'TGC5F', 'RV32GC'
                             }
                             axis {
                                 name 'BACKEND'
@@ -90,7 +90,7 @@ pipeline {
                         axes {
                             axis {
                                 name 'CORE'
-                                    values 'TGC6B', 'TGC6C', 'TGC6D', 'TGC6E'
+                                    values 'TGC6B', 'TGC6C', 'TGC6D', 'TGC6E', 'RV64GC'
                             }
                             axis {
                                 name 'BACKEND'
