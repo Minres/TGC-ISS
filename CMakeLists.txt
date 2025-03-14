@@ -11,6 +11,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
     set(CORE_NAME TGC5C CACHE STRING "The core to build the ISS for" )
     option(BUILD_COMMON_FW "Enable the automatic download and build of some firmware to run on the ISS" OFF)
     option(ENABLE_SANITIZER "Enable address sanitizer" OFF)
+    option(ENABLE_GRPOF "Enable gprof instrumentation" OFF)
     option(ENABLE_CLANG_TIDY "Add clang-tidy and clang-format automatically to builds" OFF)
     option(WITH_TCC "Build TCC backend" OFF)
     option(WITH_LLVM "Build LLVM backend" OFF)
@@ -40,10 +41,16 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
         set(warnings "/W4 /WX /EHsc")
     endif()
     if(ENABLE_SANITIZER)
-        set(CMAKE_C_FLAGS             "${CMAKE_C_FLAGS} -fsanitize=address")
-        set(CMAKE_CXX_FLAGS           "${CMAKE_CXX_FLAGS} -fsanitize=address")
-        set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
-        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address")
+        list(APPEND CMAKE_C_FLAGS             "-fsanitize=address")
+        list(APPEND CMAKE_CXX_FLAGS           "-fsanitize=address")
+        list(APPEND CMAKE_EXE_LINKER_FLAGS    "-fsanitize=address")
+        list(APPEND CMAKE_SHARED_LINKER_FLAGS "-fsanitize=address")
+    endif()
+    if(ENABLE_GPROF)
+    	list(APPEND CMAKE_C_FLAGS             "-pg")
+    	list(APPEND CMAKE_CXX_FLAGS           "-pg")
+		list(APPEND CMAKE_EXE_LINKER_FLAGS    "-pg")
+		list(APPEND CMAKE_SHARED_LINKER_FLAGS "-pg")
     endif()
     include(GNUInstallDirs)
     include(ConanInline)
@@ -213,7 +220,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
         FetchContent_Declare(
               riscvfw
               GIT_REPOSITORY https://git.minres.com/Firmware/Firmwares.git
-              GIT_TAG        main
+              GIT_TAG        develop
               GIT_SHALLOW OFF
               UPDATE_DISCONNECTED ON
         )
