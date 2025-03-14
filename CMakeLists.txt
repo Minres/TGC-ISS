@@ -213,7 +213,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
         FetchContent_Declare(
               riscvfw
               GIT_REPOSITORY https://git.minres.com/Firmware/Firmwares.git
-              GIT_TAG        main
+              GIT_TAG        develop
               GIT_SHALLOW OFF
               UPDATE_DISCONNECTED ON
         )
