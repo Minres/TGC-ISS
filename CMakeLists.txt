@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scc/cmake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 project(TGC-ISS VERSION 1.0.0 LANGUAGES CXX)
 
@@ -11,11 +11,13 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
     set(CORE_NAME TGC5C CACHE STRING "The core to build the ISS for" )
     option(BUILD_COMMON_FW "Enable the automatic download and build of some firmware to run on the ISS" OFF)
     option(ENABLE_SANITIZER "Enable address sanitizer" OFF)
+    option(ENABLE_GRPOF "Enable gprof instrumentation" OFF)
     option(ENABLE_CLANG_TIDY "Add clang-tidy and clang-format automatically to builds" OFF)
     option(WITH_TCC "Build TCC backend" OFF)
     option(WITH_LLVM "Build LLVM backend" OFF)
-    option(WITH_ASMJIT "Build ASMJIT backend" OFF)
-    
+    option(WITH_ASMJIT "Build ASMJIT backend" ON)
+    option(PORTABLE "Build executable without platform specific optimizations" OFF)
+
     set(CMAKE_CXX_STANDARD 14)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     set(CMAKE_CXX_EXTENSIONS OFF)
@@ -24,12 +26,9 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
     set(CMAKE_INSTALL_RPATH "${ORIGIN}")
     include(CheckCXXCompilerFlag)
     CHECK_CXX_COMPILER_FLAG("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
-    if(COMPILER_SUPPORTS_MARCH_NATIVE)
-        if("${CMAKE_BUILD_TYPE}" STREQUAL "") 
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
-        elseif(NOT(${CMAKE_BUILD_TYPE} STREQUAL "RelWithDebInfo"))
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
-        endif()
+    if(COMPILER_SUPPORTS_MARCH_NATIVE AND NOT PORTABLE)
+        message(STATUS "Applying platform specific optimizations")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
     endif()
     
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -40,10 +39,16 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
         set(warnings "/W4 /WX /EHsc")
     endif()
     if(ENABLE_SANITIZER)
-        set(CMAKE_C_FLAGS             "${CMAKE_C_FLAGS} -fsanitize=address")
-        set(CMAKE_CXX_FLAGS           "${CMAKE_CXX_FLAGS} -fsanitize=address")
-        set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
-        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fsanitize=address")
+        list(APPEND CMAKE_C_FLAGS             "-fsanitize=address")
+        list(APPEND CMAKE_CXX_FLAGS           "-fsanitize=address")
+        list(APPEND CMAKE_EXE_LINKER_FLAGS    "-fsanitize=address")
+        list(APPEND CMAKE_SHARED_LINKER_FLAGS "-fsanitize=address")
+    endif()
+    if(ENABLE_GPROF)
+    	list(APPEND CMAKE_C_FLAGS             "-pg")
+    	list(APPEND CMAKE_CXX_FLAGS           "-pg")
+		list(APPEND CMAKE_EXE_LINKER_FLAGS    "-pg")
+		list(APPEND CMAKE_SHARED_LINKER_FLAGS "-pg")
     endif()
     include(GNUInstallDirs)
     include(ConanInline)
@@ -85,7 +90,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
         spdlog/1.9.2
         boost/1.75.0 
         gsl-lite/0.37.0 
-        elfio/3.8 
+        elfio/3.11 
         lz4/1.9.3 
         yaml-cpp/0.7.0 
         jsoncpp/1.9.5
@@ -95,10 +100,10 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
 
     if(WITH_LLVM)
         list(APPEND CONAN_PACKAGE_LIST llvm-core/${LLVM_VERSION})
-        list(APPEND CONAN_PACKAGE_OPTIONS libiconv:shared=True)
+        list(APPEND CONAN_PACKAGE_OPTIONS libiconv:shared=True llvm-code:targets=X85)
     endif()
     if(WITH_ASMJIT)
-        list(APPEND CONAN_PACKAGE_LIST asmjit/cci.20230325)
+        list(APPEND CONAN_PACKAGE_LIST asmjit/cci.20240531)
         list(APPEND CONAN_PACKAGE_OPTIONS asmjit:shared=False)
     endif()
     if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbt-rise-plugins)
@@ -169,7 +174,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
     # setup clang-format and clang-tidy
     ###############################################################################
     if (ENABLE_CLANG_TIDY)
-        set(CLANG_FORMAT_EXCLUDE_PATTERNS "scc" "install")
+        set(CLANG_FORMAT_EXCLUDE_PATTERNS "build" "install")
         find_package(ClangFormat)
         find_program (CLANG_TIDY_EXE NAMES "clang-tidy" PATHS /usr/bin )
         if (CLANG_TIDY_EXE)
@@ -213,7 +218,7 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
         FetchContent_Declare(
               riscvfw
               GIT_REPOSITORY https://git.minres.com/Firmware/Firmwares.git
-              GIT_TAG        main
+              GIT_TAG        develop
               GIT_SHALLOW OFF
               UPDATE_DISCONNECTED ON
         )
@@ -225,12 +230,6 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
     endif()
 endif()
 
-if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS" AND NOT USE_CWR_SYSTEMC)
-    set(SCC_CMAKE_CONFIG_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/scc)
-    add_subdirectory(scc/src/common)
-else()
-    add_subdirectory(scc)
-endif()
 add_subdirectory(dbt-rise-core)
 add_subdirectory(dbt-rise-tgc)
 if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbt-rise-plugins)

@@ -1,5 +1,4 @@
 /build/
-/Debug/
 .settings
 /.venv*
 /Debug-PA/
@@ -23,3 +22,4 @@
 /.direnv
 /TGC_C_XRB/
 /.envrc.eyck
+/.cache
