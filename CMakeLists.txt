@@ -9,7 +9,6 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
     # stand alone build settings
     ###########################################################################
     set(CORE_NAME TGC5C CACHE STRING "The core to build the ISS for" )
-    option(BUILD_COMMON_FW "Enable the automatic download and build of some firmware to run on the ISS" OFF)
     option(ENABLE_SANITIZER "Enable address sanitizer" OFF)
     option(ENABLE_GRPOF "Enable gprof instrumentation" OFF)
     option(ENABLE_CLANG_TIDY "Add clang-tidy and clang-format automatically to builds" OFF)
@@ -51,112 +50,16 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
 		list(APPEND CMAKE_SHARED_LINKER_FLAGS "-pg")
     endif()
     include(GNUInstallDirs)
-    include(ConanInline)
     if(BUILD_SHARED_LIBS)
         set(SHARED_FLAG "True")
     else()
         set(SHARED_FLAG "False")
     endif()
     
-    set(CONAN_BOOST_OPTIONS
-    boost:fPIC=True
-    boost:shared=False
-    boost:header_only=False 
-    boost:without_contract=True
-    boost:without_graph=True
-    boost:without_graph_parallel=True
-    boost:without_iostreams=True
-    boost:without_json=True
-    boost:without_locale=True
-    boost:without_log=True
-    boost:without_math=True
-    boost:without_mpi=True
-    boost:without_nowide=True
-    boost:without_python=True
-    boost:without_random=True
-    boost:without_regex=True
-    boost:without_stacktrace=True
-    boost:without_test=True
-    boost:without_timer=True
-    boost:without_type_erasure=True
-    boost:without_wave=True
-    )
-    
     set(B2_VERSION 4.9.6)
     set(CM_VERSION 3.20.5)
     set(LLVM_VERSION 13.0.0)
-    set(CONAN_PACKAGE_LIST 
-        fmt/8.0.1
-        spdlog/1.9.2
-        boost/1.75.0 
-        gsl-lite/0.37.0 
-        elfio/3.11 
-        lz4/1.9.3 
-        yaml-cpp/0.7.0 
-        jsoncpp/1.9.5
-        zlib/1.2.12
-    )
-    set(CONAN_PACKAGE_OPTIONS fmt:header_only=True ${CONAN_BOOST_OPTIONS})
 
-    if(WITH_LLVM)
-        list(APPEND CONAN_PACKAGE_LIST llvm-core/${LLVM_VERSION})
-        list(APPEND CONAN_PACKAGE_OPTIONS libiconv:shared=True llvm-code:targets=X85)
-    endif()
-    if(WITH_ASMJIT)
-        list(APPEND CONAN_PACKAGE_LIST asmjit/cci.20240531)
-        list(APPEND CONAN_PACKAGE_OPTIONS asmjit:shared=False)
-    endif()
-    if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dbt-rise-plugins)
-         list(APPEND CONAN_PACKAGE_OPTIONS lua:compile_as_cpp=False)
-         list(APPEND CONAN_PACKAGE_LIST lua/5.4.3)
-    endif()
-
-    conan_check()
-    conan_add_remote(NAME minres URL https://git.minres.com/api/packages/Tooling/conan)
-    ###########################################################################
-    # Boost on CentOS 7 quirks: the b2 of conan-center is build against a newer libstdc++ and therefore does not run
-    # with the oooooold libs on CentOS 7. Therefore we build our own version of b2 if it is not there
-    ###########################################################################
-    find_program(LSB_RELEASE_EXEC lsb_release)
-    if(NOT LSB_RELEASE_EXEC-NOTFOUND)
-        execute_process(COMMAND "${LSB_RELEASE_EXEC}" --short --id OUTPUT_VARIABLE LSB_RELEASE_ID_SHORT OUTPUT_STRIP_TRAILING_WHITESPACE)
-	    if(LSB_RELEASE_ID_SHORT MATCHES "CentOS")
-	        set(B2_META   $ENV{HOME}/.conan/data/b2/${B2_VERSION}/_/_/metadata.json)
-	        set(CM_META   $ENV{HOME}/.conan/data/cmake/${CM_VERSION}/_/_/metadata.json)
-	        set(LLVM_META $ENV{HOME}/.conan/data/llvm-core/${LLVM_VERSION}/_/_/metadata.json)
-	        if(DEFINED ENV{CONAN_USER_HOME})
-                set(B2_META    $ENV{CONAN_USER_HOME}/.conan/data/b2/${B2_VERSION}/_/_/metadata.json)
-                set(CMAKE_META $ENV{CONAN_USER_HOME}/.conan/data/cmake/${CM_VERSION}/_/_/metadata.json)
-	            set(LLVM_META  $ENV{CONAN_USER_HOME}/.conan/data/llvm-core/${LLVM_VERSION}/_/_/metadata.json)
-            endif()
-            if(NOT EXISTS ${B2_META})
-                conan_configure(REQUIRES b2/${B2_VERSION})
-                conan_cmake_autodetect(settings BUILD_TYPE Release)
-                conan_cmake_install(PATH_OR_REFERENCE . BUILD b2 SETTINGS ${settings})
-            endif()
-            if(NOT EXISTS ${CM_META})
-                conan_configure(REQUIRES cmake/${CM_VERSION})
-                conan_cmake_autodetect(settings BUILD_TYPE Release)
-                conan_cmake_install(PATH_OR_REFERENCE . BUILD cmake SETTINGS ${settings})
-            endif()
-            if(NOT EXISTS ${LLVM_META})
-                conan_configure(REQUIRES llvm-core/13.0.0)
-                conan_cmake_autodetect(settings BUILD_TYPE Release)
-                conan_cmake_install(PATH_OR_REFERENCE . BUILD llvm-core SETTINGS ${settings})
-            endif()
-        endif()
-    endif()
-    ###########################################################################
-    # Boost on CentOS 7 quirks end
-    ###########################################################################
-    conan_cmake_configure(REQUIRES ${CONAN_PACKAGE_LIST}
-                          GENERATORS cmake_find_package
-                          OPTIONS ${CONAN_PACKAGE_OPTIONS}
-                          )
-    conan_cmake_autodetect(settings)
-    conan_install()
-    set(CONAN_CMAKE_SILENT_OUTPUT ON)               
-    
     find_package(fmt)
     find_package(spdlog)
     find_package(lz4)

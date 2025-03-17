@@ -1,8 +1,11 @@
 {
     "version": 3,
+    "vendor": {
+        "conan": {}
+    },
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 21,
+        "minor": 24,
         "patch": 0
     },
     "configurePresets": [
@@ -12,9 +15,23 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
+                "CMAKE_POLICY_DEFAULT_CMP0091": "NEW",
                 "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_STANDARD": "17",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "cmake/conan_provider.cmake"
+            }
+        },
+        {
+            "name": "RelWithDebInfo",
+            "cacheVariables": {
+                "CMAKE_POLICY_DEFAULT_CMP0091": "NEW",
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "CMAKE_CXX_STANDARD": "17",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "cmake/conan_provider.cmake"
             }
         },
         {
@@ -23,17 +40,13 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
+                "CMAKE_POLICY_DEFAULT_CMP0091": "NEW",
                 "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_STANDARD": "17",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "cmake/conan_provider.cmake"
             }
-        }
-    ],
-    "buildPresets": [
-        {
-            "name": "Debug",
-            "description": "Debug build",
-            "displayName": "Debug"
         }
     ]
 }
