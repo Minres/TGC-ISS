@@ -1,6 +1,3 @@
-[submodule "scc"]
-	path = scc
-	url = https://github.com/Minres/SystemC-Components.git
 [submodule "dbt-rise-core"]
 	path = dbt-rise-core
 	url = https://github.com/Minres/DBT-RISE-Core.git
