@@ -14,7 +14,7 @@ This ISS is based in DBT-RISE, a library to allow rapid ISS creation.
   
   ```
 
-  pip3 install --user 'conan<2.0'
+  pip3 install --user 'conan'
 
   ```
   
@@ -25,7 +25,7 @@ This ISS is based in DBT-RISE, a library to allow rapid ISS creation.
 
   python -mvenv .venv
   source .venv/bin/activate
-  pip3 install conan==1.59
+  pip3 install conan
 
   ``` 
   
@@ -53,7 +53,7 @@ This ISS is based in DBT-RISE, a library to allow rapid ISS creation.
   ```
 
   cd TGC-ISS
-  cmake -S . -B build/Debug
+  cmake --preset Debug -S . -B build/Debug
   cmake --build build/Debug -j10
 
   ```
@@ -71,7 +71,7 @@ Assuming environment for Platform Architect is properly set up.
   source $COWAREHOME/SLS/linux/setup.sh pae
   export CC=$COWAREHOME/SLS/linux/common/bin/gcc
   export CXX=$COWAREHOME/SLS/linux/common/bin/g++
-  cmake -S . -B build/PA -DCMAKE_BUILD_TYPE=Debug -DUSE_CWR_SYSTEMC=ON \
+  cmake --preset Debug -S . -B build/PA -DUSE_CWR_SYSTEMC=ON \
     -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=${TGFS_INSTALL_ROOT}
   cmake --build build/PA --target install -j16
 
