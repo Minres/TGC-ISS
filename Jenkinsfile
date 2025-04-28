@@ -49,7 +49,7 @@ pipeline {
                             '''
                         sh 'conan profile new default --detect --force'
                         sh 'rm -rf build'
-                        sh 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON'
+                        sh 'cmake -S . -B build --preset Release -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON'
                         sh 'cmake --build build -j'
                         sh 'build/dbt-rise-tgc/tgc-sim --isa ?'
                     }
