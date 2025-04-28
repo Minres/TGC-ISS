@@ -47,7 +47,7 @@ pipeline {
                                 done
                             done
                             '''
-                        sh 'conan profile new default --detect --force'
+                        sh 'conan profile detect --force'
                         sh 'rm -rf build'
                         sh 'cmake -S . -B build --preset Release -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON'
                         sh 'cmake --build build -j'
