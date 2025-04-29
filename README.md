@@ -7,7 +7,8 @@ This ISS is based in DBT-RISE, a library to allow rapid ISS creation.
 ## Quick start
 
 * you need to have a C++14 capable compiler, make or ninja, python, and cmake installed
- 
+ > **Warning:** With the Usage of conan2 the LLVM backend became deprecated as there is no conan package available yet.
+
 ### common setup
 
 * install conan.io (see also http://docs.conan.io/en/latest/installation.html):

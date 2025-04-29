@@ -37,19 +37,19 @@ pipeline {
                     steps {
                         sh '''
                             for core in TGC5A TGC5B TGC5D TGC5E TGC5F RV32GC; do 
-                                for backend in interp llvm tcc asmjit; do 
+                                for backend in interp 'llvm' tcc asmjit; do 
                                     TGC-GEN/scripts/generate_iss.sh -o dbt-rise-tgc/ -c $core -b ${backend} TGC-GEN/CoreDSL/${core}.core_desc
                                 done
                             done
                             for core in TGC6B TGC6C TGC6D TGC6E RV64GC; do
-                                for backend in interp llvm asmjit; do 
+                                for backend in interp 'llvm' asmjit; do 
                                     TGC-GEN/scripts/generate_iss.sh -o dbt-rise-tgc/ -c $core -b ${backend} TGC-GEN/CoreDSL/${core}.core_desc
                                 done
                             done
                             '''
                         sh 'conan profile detect --force'
                         sh 'rm -rf build'
-                        sh 'cmake -S . -B build --preset Release -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=ON'
+                        sh 'cmake -S . -B build --preset Release -DWITH_ASMJIT=ON -DWITH_TCC=ON -DWITH_LLVM=OFF'
                         sh 'cmake --build build -j'
                         sh 'build/dbt-rise-tgc/tgc-sim --isa ?'
                     }
@@ -73,7 +73,7 @@ pipeline {
                             }
                             axis {
                                 name 'BACKEND'
-                                values 'interp', 'llvm', 'tcc', 'asmjit'
+                                values 'interp', /*'llvm',*/ 'tcc', 'asmjit'
                             }
                         }
                         stages {
@@ -95,7 +95,7 @@ pipeline {
                             }
                             axis {
                                 name 'BACKEND'
-                                values 'interp', 'llvm', 'asmjit'
+                                values 'interp', /*'llvm',*/ 'asmjit'
                             }
                         }
                         stages {
