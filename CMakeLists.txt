@@ -17,7 +17,6 @@ if(CMAKE_PROJECT_NAME STREQUAL "TGC-ISS")
     option(WITH_ASMJIT "Build ASMJIT backend" ON)
     option(PORTABLE "Build executable without platform specific optimizations" OFF)
 
-    set(CMAKE_CXX_STANDARD 14)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     set(CMAKE_CXX_EXTENSIONS OFF)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)

@@ -48,14 +48,15 @@
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
 				</defs>
 			</storageModule>
-			<storageModule buildDir="build/${ConfigName}" dirtyTs="1698593487517" moduleId="de.marw.cmake4eclipse.mbs.settings">
-				<options/>
+			<storageModule buildDir="build/${ConfigName}" dirtyTs="1746805637052" moduleId="de.marw.cmake4eclipse.mbs.settings">
+				<options otherArguments="--preset RelWithDebInfo"/>
 				<defs>
-					<def name="CMAKE_BUILD_TYPE" type="STRING" val="Debug"/>
+					<def name="CMAKE_BUILD_TYPE" type="STRING" val="RelWithDebInfo"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
 					<def name="WITH_TCC" type="BOOL" val="ON"/>
-					<def name="BUILD_COMMON_FW" type="BOOL" val="ON"/>
+					<def name="FW_BUILD" type="BOOL" val="ON"/>
 					<def name="ENABLE_CLANG_TIDY" type="BOOL" val="ON"/>
+					<def name="WITH_LLVM" type="BOOL" val="ON"/>
 				</defs>
 			</storageModule>
 		</cconfiguration>
@@ -164,8 +165,8 @@
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="${ConfigName}"/>
 				</defs>
 			</storageModule>
-			<storageModule buildDir="build/${ConfigName}" dirtyTs="1741980051132" moduleId="de.marw.cmake4eclipse.mbs.settings">
-				<options/>
+			<storageModule buildDir="build/${ConfigName}" dirtyTs="1746805637052" moduleId="de.marw.cmake4eclipse.mbs.settings">
+				<options otherArguments="--preset RelWithDebInfo"/>
 				<defs>
 					<def name="CMAKE_BUILD_TYPE" type="STRING" val="RelWithDebInfo"/>
 					<def name="CMAKE_INSTALL_PREFIX" type="FILEPATH" val="${ProjDirPath}/install"/>
@@ -241,6 +242,7 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="RelWithDebInfo4Prof"/>
 		<configuration configurationName="Debug-PA">
 			<resource resourceType="PROJECT" workspacePath="/TGC-ISS"/>
 		</configuration>
